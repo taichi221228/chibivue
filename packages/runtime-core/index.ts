@@ -4,3 +4,5 @@ export {
   type RendererOptions,
 } from "./renderer";
 export { type App, createAppAPI, type CreateAppFunction } from "./apiCreateApp";
+
+export { h } from "./h";
