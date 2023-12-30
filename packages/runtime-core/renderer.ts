@@ -6,8 +6,8 @@ export interface RenderNode extends Node {
   // TODO: work in progress
 }
 
-// TODO: work in progress
 export interface RenderElement extends RenderNode {
+  // TODO: work in progress
 }
 
 export type RootRenderFunction<HostElement = RenderElement> = (
