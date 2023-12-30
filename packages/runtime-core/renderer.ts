@@ -2,9 +2,8 @@ export interface RendererOptions<HostNode = RenderNode> {
   setElementText: (node: HostNode, text: string) => void;
 }
 
-export interface RenderNode {
+export interface RenderNode extends Node {
   // TODO: work in progress
-  [key: string]: any;
 }
 
 // TODO: work in progress
