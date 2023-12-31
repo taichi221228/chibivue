@@ -1,14 +1,16 @@
 export * from "./nodeOps";
+export * from "./patchProps";
 
 import {
   createAppAPI,
   type CreateAppFunction,
   createRenderer,
   nodeOps,
+  patchProp,
   type RendererElement,
 } from "chibivue";
 
-const { render } = createRenderer(nodeOps);
+const { render } = createRenderer({ ...nodeOps, patchProp });
 const _createAppAPI = createAppAPI(render);
 
 export const createApp = ((...args) => {

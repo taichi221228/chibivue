@@ -8,6 +8,8 @@ export interface RendererOptions<
 
   createText: (text: string) => HostNode;
 
+  patchProp: (el: HostElement, key: string, value: any) => void;
+
   setElementText: (node: HostNode, text: string) => void;
 
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
