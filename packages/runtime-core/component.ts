@@ -1,3 +1,3 @@
-import { type ComponentOptions } from "./componentOptions";
+import { type ComponentOptions } from "chibivue";
 
 export type Component = ComponentOptions;

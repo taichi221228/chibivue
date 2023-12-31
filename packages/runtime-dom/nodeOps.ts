@@ -1,4 +1,4 @@
-import { type RendererOptions } from "../runtime-core";
+import { type RendererOptions } from "chibivue";
 
 export const nodeOps: RendererOptions<Node> = {
   createElement: (tagName) => document.createElement(tagName),

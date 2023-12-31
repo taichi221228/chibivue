@@ -1,10 +1,12 @@
+export * from "./nodeOps";
+
 import {
   createAppAPI,
   type CreateAppFunction,
   createRenderer,
   type RenderElement,
-} from "../runtime-core";
-import { nodeOps } from "./nodeOps";
+} from "chibivue";
+import { nodeOps } from "chibivue";
 
 const { render } = createRenderer(nodeOps);
 const _createAppAPI = createAppAPI(render);
