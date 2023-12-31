@@ -1,6 +1,6 @@
 import { type VNode } from "./vnode";
 
-export interface RendererOptions<HostNode = RenderNode> {
+export interface RendererOptions<HostNode = RendererNode> {
   createElement: (type: string) => HostNode;
 
   createText: (text: string) => HostNode;
@@ -10,15 +10,15 @@ export interface RendererOptions<HostNode = RenderNode> {
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
-export interface RenderNode extends Node {
+export interface RendererNode extends Node {
   // TODO: work in progress
 }
 
-export interface RenderElement extends RenderNode {
+export interface RendererElement extends RendererNode {
   // TODO: work in progress
 }
 
-export type RootRenderFunction<HostElement = RenderElement> = (
+export type RootRenderFunction<HostElement = RendererElement> = (
   message: string,
   container: HostElement,
 ) => void;

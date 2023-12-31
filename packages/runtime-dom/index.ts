@@ -4,7 +4,7 @@ import {
   createAppAPI,
   type CreateAppFunction,
   createRenderer,
-  type RenderElement,
+  type RendererElement,
 } from "chibivue";
 import { nodeOps } from "chibivue";
 
@@ -15,7 +15,7 @@ export const createApp = ((...args) => {
   const app = _createAppAPI(...args);
   const { mount } = app;
 
-  app.mount = (selector: RenderElement | string) => {
+  app.mount = (selector: RendererElement | string) => {
     const container = typeof selector === "string"
       ? document.querySelector(selector)
       : selector;
