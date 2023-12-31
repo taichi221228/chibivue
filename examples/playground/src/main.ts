@@ -7,7 +7,11 @@ const app = createApp({
       h("p", {}, ["This is nested paragraph."]),
       h("div", {}, [
         h("span", {}, ["This is nested span."]),
-        h("button", {}, ["Click me!"]),
+        h("button", {
+          onClick: () => {
+            alert("Hello, Chibivue!");
+          },
+        }, ["Click me!"]),
       ]),
       "This is a text node.",
     ]),
