@@ -10,7 +10,7 @@ export interface RendererOptions<HostNode = RendererNode> {
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
-export interface RendererNode extends Node {
+export interface RendererNode {
   // TODO: work in progress
   [key: string]: any;
 }
