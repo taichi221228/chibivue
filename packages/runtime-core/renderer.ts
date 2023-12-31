@@ -1,4 +1,4 @@
-import { type VNode } from "./vnode";
+import { type VNode } from "chibivue";
 
 export interface RendererOptions<HostNode = RendererNode> {
   createElement: (type: string) => HostNode;
