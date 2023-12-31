@@ -1,7 +1,10 @@
 import { type VNode } from "chibivue";
 
-export interface RendererOptions<HostNode = RendererNode> {
-  createElement: (type: string) => HostNode;
+export interface RendererOptions<
+  HostNode = RendererNode,
+  HostElement = RendererElement,
+> {
+  createElement: (type: string) => HostElement;
 
   createText: (text: string) => HostNode;
 
