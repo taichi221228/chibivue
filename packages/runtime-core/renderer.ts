@@ -13,12 +13,11 @@ export interface RendererOptions<
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
-export interface RendererNode {
+export interface RendererNode extends Node {
   // TODO: work in progress
-  [key: string]: any;
 }
 
-export interface RendererElement extends RendererNode {
+export interface RendererElement extends Element {
   // TODO: work in progress
 }
 
