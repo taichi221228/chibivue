@@ -12,6 +12,7 @@ export interface RendererOptions<HostNode = RendererNode> {
 
 export interface RendererNode extends Node {
   // TODO: work in progress
+  [key: string]: any;
 }
 
 export interface RendererElement extends RendererNode {

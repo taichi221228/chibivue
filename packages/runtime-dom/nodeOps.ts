@@ -1,6 +1,6 @@
 import { type RendererOptions } from "chibivue";
 
-export const nodeOps: RendererOptions<Node> = {
+export const nodeOps: RendererOptions = {
   createElement: (tagName) => document.createElement(tagName),
 
   createText: (text) => document.createTextNode(text),
