@@ -1,4 +1,4 @@
-import { patchEvent, type RendererOptions } from "chibivue";
+import { patchAttr, patchEvent, type RendererOptions } from "chibivue";
 
 type DOMRendererOptions = RendererOptions<Node, Element>;
 
@@ -14,6 +14,6 @@ export const patchProp: DOMRendererOptions["patchProp"] = (
   if (isOn(key)) {
     patchEvent(el, key, value);
   } else {
-    // TODO: work in progress
+    patchAttr(el, key, value);
   }
 };

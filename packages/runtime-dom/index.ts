@@ -1,5 +1,6 @@
 export * from "./nodeOps";
 export * from "./patchProps";
+export * from "./modules/attrs";
 export * from "./modules/events";
 
 import {
