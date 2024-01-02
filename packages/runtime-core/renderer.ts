@@ -28,7 +28,9 @@ export type RootRenderFunction<HostElement = RendererElement> = (
   container: HostElement,
 ) => void;
 
-export const createRenderer = (options: RendererOptions) => {
+export const createRenderer = (
+  options: RendererOptions,
+): { render: RootRenderFunction } => {
   const {
     createElement: hostCreateElement,
     createText: hostCreateText,
@@ -53,10 +55,10 @@ export const createRenderer = (options: RendererOptions) => {
     return el;
   };
 
-  const render: RootRenderFunction = (vnode, container) => {
-    const el = renderVNode(vnode);
-    hostInsert(el, container);
+  return {
+    render: (vnode, container) => {
+      const el = renderVNode(vnode);
+      hostInsert(el, container);
+    },
   };
-
-  return { render };
 };
