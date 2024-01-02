@@ -15,7 +15,7 @@ import {
 const { render } = createRenderer({ ...nodeOps, patchProp });
 const _createAppAPI = createAppAPI(render);
 
-export const createApp = ((...args) => {
+export const createApp: CreateAppFunction<Element> = (...args) => {
   const app = _createAppAPI(...args);
   const { mount } = app;
 
@@ -24,8 +24,9 @@ export const createApp = ((...args) => {
       ? document.querySelector(selector)
       : selector;
     if (!container) return;
+
     mount(container);
   };
 
   return app;
-}) as CreateAppFunction<Element>;
+};
