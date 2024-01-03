@@ -15,13 +15,9 @@ export interface RendererOptions<
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
-export interface RendererNode extends Node {
-  // TODO: work in progress
-}
+export interface RendererNode extends Node {}
 
-export interface RendererElement extends Element {
-  // TODO: work in progress
-}
+export interface RendererElement extends Element {}
 
 export type RootRenderFunction<HostElement = RendererElement> = (
   message: string,
