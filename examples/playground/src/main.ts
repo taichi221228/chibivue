@@ -1,7 +1,7 @@
 import { createApp, h } from "chibivue";
 
 const app = createApp({
-  render: () =>
+  setup: () => () =>
     h("div", {}, [
       h("h1", { style: "color: red;" }, ["Hello, Chibivue!"]),
       h("p", {}, ["This is nested paragraph."]),
