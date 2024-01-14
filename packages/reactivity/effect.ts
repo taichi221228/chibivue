@@ -28,7 +28,7 @@ export const track = (target: object, key: unknown) => {
   if (activeEffect) dep.add(activeEffect);
 };
 
-export const trigger = (target: object, key: unknown) => {
+export const trigger = (target: object, key?: unknown) => {
   const depsMap = targetMap.get(target);
   if (!depsMap) return;
 
