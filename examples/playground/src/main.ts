@@ -1,20 +1,19 @@
-import { createApp, h } from "chibivue";
+import { createApp, h, reactive } from "chibivue";
 
 const app = createApp({
-  setup: () => () =>
-    h("div", {}, [
-      h("h1", { style: "color: red;" }, ["Hello, Chibivue!"]),
-      h("p", {}, ["This is nested paragraph."]),
-      h("div", {}, [
-        h("span", {}, ["This is nested span."]),
-        h("button", {
-          onClick: () => {
-            alert("Hello, Chibivue!");
-          },
-        }, ["Click me!"]),
-      ]),
-      "This is a text node.",
-    ]),
+  setup: () => {
+    const state = reactive({ count: 0 });
+    const increment = () => state.count++;
+
+    return () =>
+      h("div", { id: "chibivue" }, [
+        h("h1", {}, [
+          "count: ",
+          h("span", {}, [state.count + ""]),
+        ]),
+        h("button", { onClick: increment }, ["increment!"]),
+      ]);
+  },
 });
 
 app.mount("#app");
