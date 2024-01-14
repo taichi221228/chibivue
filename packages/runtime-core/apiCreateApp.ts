@@ -1,4 +1,8 @@
-import { type Component, type RootRenderFunction } from "chibivue";
+import {
+  type Component,
+  ReactiveEffect,
+  type RootRenderFunction,
+} from "chibivue";
 
 export interface App<HostElement = any> {
   mount: (rootContainer: HostElement | string) => void;
@@ -21,7 +25,8 @@ export const createAppAPI = <HostElement>(
           render(vnode, rootContainer);
         };
 
-        updateComponent();
+        const effect = new ReactiveEffect(updateComponent);
+        effect.run();
       },
     };
     return app;
