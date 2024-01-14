@@ -50,6 +50,7 @@ export const createRenderer = (
 
   return {
     render: (vnode, container) => {
+      while (container.firstChild) container.removeChild(container.firstChild);
       hostInsert(renderVNode(vnode), container);
     },
   };
