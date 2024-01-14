@@ -39,22 +39,18 @@ export const createRenderer = (
 
     const el = hostCreateElement(vnode.type);
 
-    Object.entries(vnode.props).forEach(([key, value]) => {
-      hostPatchProp(el, key, value);
-    });
+    Object.entries(vnode.props).forEach(([key, value]) =>
+      hostPatchProp(el, key, value)
+    );
 
-    for (let child of vnode.children) {
-      const childEl = renderVNode(child);
-      hostInsert(childEl, el);
-    }
+    vnode.children.forEach((child) => hostInsert(renderVNode(child), el));
 
     return el;
   };
 
   return {
     render: (vnode, container) => {
-      const el = renderVNode(vnode);
-      hostInsert(el, container);
+      hostInsert(renderVNode(vnode), container);
     },
   };
 };
