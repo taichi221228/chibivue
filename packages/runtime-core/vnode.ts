@@ -1,5 +1,7 @@
+export type VNodeTypes = string | typeof Text;
+
 export interface VNode {
-  type: string;
+  type: VNodeTypes;
   props: VNodeProps;
   children: (VNode | string)[];
 }
@@ -8,8 +10,10 @@ export interface VNodeProps {
   [key: string]: any;
 }
 
+export const Text = Symbol();
+
 export const createVNode = (
-  type: VNode["type"],
+  type: VNodeTypes,
   props: VNodeProps,
   children: VNode["children"],
 ): VNode => ({ type, props, children });
