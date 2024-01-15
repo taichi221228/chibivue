@@ -7,3 +7,9 @@ export interface VNode {
 export interface VNodeProps {
   [key: string]: any;
 }
+
+export const createVNode = (
+  type: VNode["type"],
+  props: VNodeProps,
+  children: VNode["children"],
+): VNode => ({ type, props, children });
