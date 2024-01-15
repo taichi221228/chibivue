@@ -1,4 +1,4 @@
-export interface VNode {
+export interface VNode<HostNode = any> {
   type: VNodeTypes;
   props: VNodeProps | null;
   children: VNodeNormalizedChildren;
