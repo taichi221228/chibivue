@@ -1,4 +1,10 @@
-import { normalizeVNode, Text, type VNode } from "chibivue";
+import {
+  type Component,
+  normalizeVNode,
+  ReactiveEffect,
+  Text,
+  type VNode,
+} from "chibivue";
 
 export interface RendererOptions<
   HostNode = RendererNode,
@@ -20,7 +26,7 @@ export interface RendererNode extends Node {}
 export interface RendererElement extends Element {}
 
 export type RootRenderFunction<HostElement = RendererElement> = (
-  message: string,
+  vnode: Component,
   container: HostElement,
 ) => void;
 
@@ -81,7 +87,20 @@ export const createRenderer = (
 
   const patchElement = () => {};
 
-  const render = () => {};
+  const render: RootRenderFunction = (rootComponent, container) => {
+    const componentRender = rootComponent.setup!();
+
+    let n1: VNode | null = null;
+
+    const updateComponent = () => {
+      const n2 = componentRender();
+      patch(n1, n2, container);
+      n1 = n2;
+    };
+
+    const effect = new ReactiveEffect(updateComponent);
+    effect.run();
+  };
 
   return { render };
 };
