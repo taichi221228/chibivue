@@ -36,11 +36,21 @@ export const createRenderer = (
 
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     const { type } = n2;
-    if (type === Text) processText();
+    if (type === Text) processText(n1, n2, container);
     else processElement(n1, n2, container);
   };
 
-  const processText = () => {};
+  const processText = (
+    n1: VNode | null,
+    n2: VNode,
+    container: RendererElement,
+  ) => {
+    if (n1 === null) {
+      hostInsert(n2.el = hostCreateText(n2.children as string), container);
+    } else {
+      // TODO: patch
+    }
+  };
   const processElement = (
     n1: VNode | null,
     n2: VNode,
