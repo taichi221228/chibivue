@@ -1,4 +1,6 @@
-export interface VNode<HostNode = any> {
+import { RendererNode } from "chibivue";
+
+export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
   props: VNodeProps | null;
   children: VNodeNormalizedChildren;
