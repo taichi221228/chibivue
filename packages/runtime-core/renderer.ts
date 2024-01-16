@@ -1,4 +1,4 @@
-import { Text, type VNode } from "chibivue";
+import { normalizeVNode, Text, type VNode } from "chibivue";
 
 export interface RendererOptions<
   HostNode = RendererNode,
@@ -55,7 +55,7 @@ export const createRenderer = (
     let el: RendererElement;
     el = vnode.el = hostCreateElement(type as string);
 
-    mountChildren();
+    mountChildren(vnode.children as VNode[], el);
 
     if (props) {
       for (const key in props) {
@@ -66,7 +66,8 @@ export const createRenderer = (
     hostInsert(el, container);
   };
 
-  const mountChildren = () => {};
+  const mountChildren = (children: VNode[], container: RendererElement) =>
+    children.forEach((child) => patch(null, normalizeVNode(child), container));
 
   const patchElement = () => {};
 
