@@ -1,4 +1,4 @@
-import { createVNode, VNode } from "chibivue";
+import { createVNode, type VNode } from "chibivue";
 
 export const h = (
   type: VNode["type"],

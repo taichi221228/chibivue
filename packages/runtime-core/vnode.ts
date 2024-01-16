@@ -1,4 +1,4 @@
-import { RendererNode } from "chibivue";
+import { type RendererNode } from "chibivue";
 
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
