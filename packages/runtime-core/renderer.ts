@@ -41,10 +41,36 @@ export const createRenderer = (
   };
 
   const processText = () => {};
-  const processElement = () => {};
+  const processElement = (
+    n1: VNode | null,
+    n2: VNode,
+    container: RendererElement,
+  ) => {
+    if (n1 === null) mountElement(n2, container);
+    else patchElement();
+  };
+
+  const mountElement = (vnode: VNode, container: RendererElement) => {
+    const { type, props } = vnode;
+    let el: RendererElement;
+    el = vnode.el = hostCreateElement(type as string);
+
+    mountChildren();
+
+    if (props) {
+      for (const key in props) {
+        hostPatchProp(el, key, props[key]);
+      }
+    }
+
+    hostInsert(el, container);
+  };
+
+  const mountChildren = () => {};
+
+  const patchElement = () => {};
 
   const render = () => {};
 
   return { render };
 };
-

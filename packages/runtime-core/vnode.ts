@@ -4,6 +4,7 @@ export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
   props: VNodeProps | null;
   children: VNodeNormalizedChildren;
+  el: HostNode | undefined;
 }
 
 export type VNodeTypes = string | typeof Text;
@@ -26,7 +27,7 @@ export const createVNode = (
   type: VNodeTypes,
   props: VNodeProps | null,
   children: VNodeNormalizedChildren,
-): VNode => ({ type, props, children });
+): VNode => ({ type, props, children }); // TODO: el
 
 export const normalizeVNode = (child: VNodeChild): VNode => {
   if (typeof child === "object") {
