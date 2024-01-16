@@ -1,4 +1,4 @@
-import { type VNode } from "chibivue";
+import { Text, type VNode } from "chibivue";
 
 export interface RendererOptions<
   HostNode = RendererNode,
@@ -34,24 +34,17 @@ export const createRenderer = (
     insert: hostInsert,
   } = options;
 
-  const renderVNode = (vnode: VNode | string) => {
-    if (typeof vnode === "string") return hostCreateText(vnode);
-
-    const el = hostCreateElement(vnode.type);
-
-    Object.entries(vnode.props).forEach(([key, value]) =>
-      hostPatchProp(el, key, value)
-    );
-
-    vnode.children.forEach((child) => hostInsert(renderVNode(child), el));
-
-    return el;
+  const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
+    const { type } = n2;
+    if (type === Text) processText();
+    else processElement();
   };
 
-  return {
-    render: (vnode, container) => {
-      while (container.firstChild) container.removeChild(container.firstChild);
-      hostInsert(renderVNode(vnode), container);
-    },
-  };
+  const processText = () => {};
+  const processElement = () => {};
+
+  const render = () => {};
+
+  return { render };
 };
+
