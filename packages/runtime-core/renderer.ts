@@ -37,7 +37,7 @@ export const createRenderer = (
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     const { type } = n2;
     if (type === Text) processText();
-    else processElement();
+    else processElement(n1, n2, container);
   };
 
   const processText = () => {};
