@@ -30,9 +30,6 @@ export const createVNode = (
 ): VNode => ({ type, props, children, el: undefined });
 
 export const normalizeVNode = (child: VNodeChild): VNode => {
-  if (typeof child === "object") {
-    return { ...child } as VNode;
-  } else {
-    return createVNode(Text, null, child + "");
-  }
+  if (typeof child === "object") return { ...child } as VNode;
+  else return createVNode(Text, null, child + "");
 };

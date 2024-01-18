@@ -11,21 +11,16 @@ export interface RendererOptions<
   HostElement = RendererElement,
 > {
   createElement: (type: string) => HostElement;
-
   createText: (text: string) => HostNode;
-
   patchProp: (el: HostElement, key: string, value: any) => void;
-
   setElementText: (node: HostNode, text: string) => void;
-
   setText: (node: HostNode, text: string) => void;
-
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
 export interface RendererNode extends Node {}
 
-export interface RendererElement extends RendererNode {}
+export interface RendererElement extends Element {}
 
 export type RootRenderFunction<HostElement = RendererElement> = (
   vnode: Component,
@@ -75,11 +70,7 @@ export function createRenderer(options: RendererOptions) {
 
     mountChildren(vnode.children as VNode[], el);
 
-    if (props) {
-      for (const key in props) {
-        hostPatchProp(el, key, props[key]);
-      }
-    }
+    if (props) for (const key in props) hostPatchProp(el, key, props[key]);
 
     hostInsert(el, container);
   };
@@ -90,7 +81,7 @@ export function createRenderer(options: RendererOptions) {
     );
 
   const patchElement = (n1: VNode, n2: VNode) => {
-    const el = (n2.el = n1.el!);
+    const el = (n2.el = n1.el!) as RendererElement
     const props = n2.props;
 
     patchChildren(n1, n2, el);
@@ -115,7 +106,6 @@ export function createRenderer(options: RendererOptions) {
     const componentRender = rootComponent.setup!();
 
     let n1: VNode | null = null;
-    let n2: VNode = null!;
 
     const updateComponent = () => {
       const n2 = componentRender();
