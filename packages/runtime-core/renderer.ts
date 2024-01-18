@@ -81,7 +81,7 @@ export function createRenderer(options: RendererOptions) {
     );
 
   const patchElement = (n1: VNode, n2: VNode) => {
-    const el = (n2.el = n1.el!) as RendererElement
+    const el = (n2.el = n1.el!) as RendererElement;
     const props = n2.props;
 
     patchChildren(n1, n2, el);
