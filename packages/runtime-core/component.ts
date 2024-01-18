@@ -21,3 +21,16 @@ export interface ComponentInternalInstance {
 export type InternalRenderFunction = {
   (): VNodeChild;
 };
+
+export const createComponentInstance = (
+  vnode: VNode,
+): ComponentInternalInstance => ({
+  type: vnode.type as Component,
+  vnode,
+  subTree: null!,
+  next: null,
+  effect: null!,
+  render: null!,
+  update: null!,
+  isMounted: false,
+});
