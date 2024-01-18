@@ -1,5 +1,7 @@
 import {
   type Component,
+  type ComponentInternalInstance,
+  createComponentInstance,
   normalizeVNode,
   ReactiveEffect,
   Text,
@@ -114,11 +116,14 @@ export function createRenderer(options: RendererOptions) {
   };
 
   const mountComponent = (
-    _initialVnode: VNode,
+    initialVnode: VNode,
     _container: RendererElement,
-  ) => {};
+  ) => {
+    const _instance: ComponentInternalInstance =
+      (initialVnode.component = createComponentInstance(initialVnode));
+  };
 
-  const updateComponent = ( _n1: VNode, _n2: VNode) => {};
+  const updateComponent = (_n1: VNode, _n2: VNode) => {};
 
   const render: RootRenderFunction = (rootComponent, container) => {
     const componentRender = rootComponent.setup!();
