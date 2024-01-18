@@ -2,6 +2,7 @@ import {
   type Component,
   type ComponentInternalInstance,
   createComponentInstance,
+  type InternalRenderFunction,
   normalizeVNode,
   ReactiveEffect,
   Text,
@@ -119,8 +120,13 @@ export function createRenderer(options: RendererOptions) {
     initialVnode: VNode,
     _container: RendererElement,
   ) => {
-    const _instance: ComponentInternalInstance =
+    const instance: ComponentInternalInstance =
       (initialVnode.component = createComponentInstance(initialVnode));
+
+    const component = initialVnode.type as Component;
+    if (component.setup) {
+      instance.render = component.setup() as InternalRenderFunction;
+    }
   };
 
   const updateComponent = (_n1: VNode, _n2: VNode) => {};
