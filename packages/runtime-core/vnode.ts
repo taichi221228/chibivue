@@ -1,13 +1,14 @@
-import { type RendererNode } from "chibivue";
+import { type ComponentInternalInstance, type RendererNode } from "chibivue";
 
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
   props: VNodeProps | null;
   children: VNodeNormalizedChildren;
   el: HostNode | undefined;
+  component: ComponentInternalInstance | null;
 }
 
-export type VNodeTypes = string | typeof Text;
+export type VNodeTypes = string | typeof Text | object;
 
 export interface VNodeProps {
   [key: string]: any;
@@ -27,7 +28,7 @@ export const createVNode = (
   type: VNodeTypes,
   props: VNodeProps | null,
   children: VNodeNormalizedChildren,
-): VNode => ({ type, props, children, el: undefined });
+): VNode => ({ type, props, children, el: undefined, component: null });
 
 export const normalizeVNode = (child: VNodeChild): VNode => {
   if (typeof child === "object") return { ...child } as VNode;
