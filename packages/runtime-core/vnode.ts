@@ -13,7 +13,7 @@ export interface VNodeProps {
   [key: string]: any;
 }
 
-type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
+export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
 type VNodeChildAtom = VNode | string;
 
