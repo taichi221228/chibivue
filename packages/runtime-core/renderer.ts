@@ -39,7 +39,9 @@ export function createRenderer(options: RendererOptions) {
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     const { type } = n2;
     if (type === Text) processText(n1, n2, container);
-    else processElement(n1, n2, container);
+    else if (type === "string") processElement(n1, n2, container);
+    else if (type === "object") processComponent(n1, n2, container);
+    else {}
   };
 
   const processText = (
@@ -101,6 +103,22 @@ export function createRenderer(options: RendererOptions) {
       patch(c1[i], c2[i] = normalizeVNode(c2[i]), container)
     );
   };
+
+  const processComponent = (
+    n1: VNode | null,
+    n2: VNode,
+    container: RendererElement,
+  ) => {
+    if (n1 === null) mountComponent(n2, container);
+    else updateComponent(n1, n2);
+  };
+
+  const mountComponent = (
+    _initialVnode: VNode,
+    _container: RendererElement,
+  ) => {};
+
+  const updateComponent = ( _n1: VNode, _n2: VNode) => {};
 
   const render: RootRenderFunction = (rootComponent, container) => {
     const componentRender = rootComponent.setup!();
