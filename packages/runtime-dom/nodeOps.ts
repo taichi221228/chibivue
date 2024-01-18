@@ -9,6 +9,10 @@ export const nodeOps: Omit<RendererOptions, "patchProp"> = {
     node.textContent = text;
   },
 
+  setText: (node, text) => {
+    node.nodeValue = text;
+  },
+
   insert(child, parent, anchor) {
     parent.insertBefore(child, anchor || null);
   },

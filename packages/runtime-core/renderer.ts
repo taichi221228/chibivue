@@ -18,25 +18,26 @@ export interface RendererOptions<
 
   setElementText: (node: HostNode, text: string) => void;
 
+  setText: (node: HostNode, text: string) => void;
+
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
 }
 
 export interface RendererNode extends Node {}
 
-export interface RendererElement extends Element {}
+export interface RendererElement extends RendererNode {}
 
 export type RootRenderFunction<HostElement = RendererElement> = (
   vnode: Component,
   container: HostElement,
 ) => void;
 
-export const createRenderer = (
-  options: RendererOptions,
-): { render: RootRenderFunction } => {
+export function createRenderer(options: RendererOptions) {
   const {
+    patchProp: hostPatchProp,
     createElement: hostCreateElement,
     createText: hostCreateText,
-    patchProp: hostPatchProp,
+    setText: hostSetText,
     insert: hostInsert,
   } = options;
 
@@ -51,19 +52,20 @@ export const createRenderer = (
     n2: VNode,
     container: RendererElement,
   ) => {
-    if (n1 === null) {
+    if (n1 == null) {
       hostInsert(n2.el = hostCreateText(n2.children as string), container);
-    } else {
-      // TODO: patch
+    } else if (n2.children !== n1.children) {
+      hostSetText(n2.el = n1.el!, n2.children as string);
     }
   };
+
   const processElement = (
     n1: VNode | null,
     n2: VNode,
     container: RendererElement,
   ) => {
     if (n1 === null) mountElement(n2, container);
-    else patchElement();
+    else patchElement(n1, n2);
   };
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
@@ -83,14 +85,37 @@ export const createRenderer = (
   };
 
   const mountChildren = (children: VNode[], container: RendererElement) =>
-    children.forEach((child) => patch(null, normalizeVNode(child), container));
+    children.forEach((_, i) =>
+      patch(null, children[i] = normalizeVNode(children[i]), container)
+    );
 
-  const patchElement = () => {};
+  const patchElement = (n1: VNode, n2: VNode) => {
+    const el = (n2.el = n1.el!);
+    const props = n2.props;
+
+    patchChildren(n1, n2, el);
+
+    for (const key in props) {
+      if (props[key] !== (n1.props?.[key] ?? {})) {
+        hostPatchProp(el, key, props[key]);
+      }
+    }
+  };
+
+  const patchChildren = (n1: VNode, n2: VNode, container: RendererElement) => {
+    const c1 = n1.children as VNode[];
+    const c2 = n2.children as VNode[];
+
+    c2.forEach((_, i) =>
+      patch(c1[i], c2[i] = normalizeVNode(c2[i]), container)
+    );
+  };
 
   const render: RootRenderFunction = (rootComponent, container) => {
     const componentRender = rootComponent.setup!();
 
     let n1: VNode | null = null;
+    let n2: VNode = null!;
 
     const updateComponent = () => {
       const n2 = componentRender();
@@ -103,4 +128,4 @@ export const createRenderer = (
   };
 
   return { render };
-};
+}
