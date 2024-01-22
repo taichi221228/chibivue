@@ -121,7 +121,7 @@ export function createRenderer(options: RendererOptions) {
 
   const mountComponent = (
     initialVnode: VNode,
-    _container: RendererElement,
+    container: RendererElement,
   ) => {
     const instance: ComponentInternalInstance =
       (initialVnode.component = createComponentInstance(initialVnode));
@@ -130,6 +130,8 @@ export function createRenderer(options: RendererOptions) {
     if (component.setup) {
       instance.render = component.setup() as InternalRenderFunction;
     }
+
+    setupRenderEffect(instance, initialVnode, container);
   };
 
   const updateComponent = (n1: VNode, n2: VNode) => {
