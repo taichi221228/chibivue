@@ -129,7 +129,43 @@ export function createRenderer(options: RendererOptions) {
     }
   };
 
-  const updateComponent = (_n1: VNode, _n2: VNode) => {};
+  const updateComponent = (n1: VNode, n2: VNode) => {
+    const instance = (n2.component = n1.component)!;
+    instance.next = n2;
+    instance.update();
+  };
+
+  const setupRenderEffect = (
+    instance: ComponentInternalInstance,
+    initialVnode: VNode,
+    container: RendererElement,
+  ) => {
+    const componentUpdate = () => {
+      const { render } = instance;
+
+      if (!instance.isMounted) {
+        const subTree = (instance.subTree = normalizeVNode(render()));
+        patch(null, subTree, container);
+        initialVnode.el = subTree.el;
+        instance.isMounted = true;
+      } else {
+        let { next, vnode } = instance;
+
+        if (next) {
+          next.el = vnode.el;
+          next.component = vnode.component;
+          instance.vnode = next;
+          instance.next = null;
+        } else {
+          next = vnode;
+        }
+
+        const effect = (instance.effect = new ReactiveEffect(componentUpdate));
+        const update = (instance.update = () => effect.run());
+        update();
+      }
+    };
+  };
 
   const render: RootRenderFunction = (rootComponent, container) => {
     const componentRender = rootComponent.setup!();
