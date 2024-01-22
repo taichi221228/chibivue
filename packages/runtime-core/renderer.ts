@@ -176,11 +176,11 @@ export function createRenderer(options: RendererOptions) {
         );
         next.el = nextTree.el;
       }
-
-      const effect = (instance.effect = new ReactiveEffect(componentUpdate));
-      const update = (instance.update = () => effect.run());
-      update();
     };
+
+    const effect = (instance.effect = new ReactiveEffect(componentUpdate));
+    const update = (instance.update = () => effect.run());
+    update();
   };
 
   const render: RootRenderFunction = (rootComponent, container) => {
