@@ -45,8 +45,8 @@ export function createRenderer(options: RendererOptions) {
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     const { type } = n2;
     if (type === Text) processText(n1, n2, container);
-    else if (type === "string") processElement(n1, n2, container);
-    else if (type === "object") processComponent(n1, n2, container);
+    else if (typeof type === "string") processElement(n1, n2, container);
+    else if (typeof type === "object") processComponent(n1, n2, container);
     else {}
   };
 
