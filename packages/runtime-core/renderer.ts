@@ -2,6 +2,7 @@ import {
   type Component,
   type ComponentInternalInstance,
   createComponentInstance,
+  createVNode,
   type InternalRenderFunction,
   normalizeVNode,
   ReactiveEffect,
@@ -19,6 +20,7 @@ export interface RendererOptions<
   setElementText: (node: HostNode, text: string) => void;
   setText: (node: HostNode, text: string) => void;
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
+  parentNode(node: HostNode): HostNode | null;
 }
 
 export interface RendererNode extends Node {}
@@ -37,6 +39,7 @@ export function createRenderer(options: RendererOptions) {
     createText: hostCreateText,
     setText: hostSetText,
     insert: hostInsert,
+    parentNode: hostParentNode,
   } = options;
 
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
@@ -160,26 +163,27 @@ export function createRenderer(options: RendererOptions) {
           next = vnode;
         }
 
-        const effect = (instance.effect = new ReactiveEffect(componentUpdate));
-        const update = (instance.update = () => effect.run());
-        update();
+        const prevTree = instance.subTree;
+        const nextTree = normalizeVNode(render());
+        instance.subTree = nextTree;
+
+        patch(
+          prevTree,
+          nextTree,
+          hostParentNode(prevTree.el!) as RendererElement,
+        );
+        next.el = nextTree.el;
       }
+
+      const effect = (instance.effect = new ReactiveEffect(componentUpdate));
+      const update = (instance.update = () => effect.run());
+      update();
     };
   };
 
   const render: RootRenderFunction = (rootComponent, container) => {
-    const componentRender = rootComponent.setup!();
-
-    let n1: VNode | null = null;
-
-    const updateComponent = () => {
-      const n2 = componentRender();
-      patch(n1, n2, container);
-      n1 = n2;
-    };
-
-    const effect = new ReactiveEffect(updateComponent);
-    effect.run();
+    const vnode = createVNode(rootComponent, {}, []);
+    patch(null, vnode, container);
   };
 
   return { render };
