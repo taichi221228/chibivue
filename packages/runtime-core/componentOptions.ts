@@ -1,5 +1,4 @@
 export interface ComponentOptions {
-  // TODO: work in progress
-  render?: Function;
   setup?: () => Function;
+  render?: Function;
 }
