@@ -1,9 +1,12 @@
 import {
   type ComponentOptions,
+  type Props,
   type ReactiveEffect,
   type VNode,
   type VNodeChild,
 } from "chibivue";
+
+export type Data = Record<string, unknown>;
 
 export type Component = ComponentOptions;
 
@@ -16,6 +19,8 @@ export interface ComponentInternalInstance {
   render: InternalRenderFunction;
   update: () => void;
   isMounted: boolean;
+  props: Data;
+  propsOptions: Props;
 }
 
 export type InternalRenderFunction = {
@@ -33,4 +38,6 @@ export const createComponentInstance = (
   render: null!,
   update: null!,
   isMounted: false,
+  props: {},
+  propsOptions: {},
 });
