@@ -39,5 +39,5 @@ export const createComponentInstance = (
   update: null!,
   isMounted: false,
   props: {},
-  propsOptions: {},
+  propsOptions: (vnode.type as Component).props || {},
 });
