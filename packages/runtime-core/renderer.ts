@@ -78,7 +78,11 @@ export function createRenderer(options: RendererOptions) {
 
     mountChildren(vnode.children as VNode[], el);
 
-    if (props) for (const key in props) hostPatchProp(el, key, props[key]);
+    if (props) {
+      Object.entries(props).forEach(([key]) =>
+        hostPatchProp(el, key, props[key])
+      );
+    }
 
     hostInsert(el, container);
   };
@@ -94,10 +98,12 @@ export function createRenderer(options: RendererOptions) {
 
     patchChildren(n1, n2, el);
 
-    for (const key in props) {
-      if (props[key] !== (n1.props?.[key] ?? {})) {
-        hostPatchProp(el, key, props[key]);
-      }
+    if (props) {
+      Object.entries(props).forEach(([key]) => {
+        if (props[key] !== (n1.props?.[key] ?? {})) {
+          hostPatchProp(el, key, props[key]);
+        }
+      });
     }
   };
 
