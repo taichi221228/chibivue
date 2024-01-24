@@ -2,8 +2,8 @@ import { createApp, h, reactive } from "chibivue";
 
 const TextComponent = {
   props: { message: { type: String } },
-  setup: ({ message }: { message: string }) => () =>
-    h("p", {}, [`message: ${message ?? "undefined"}`]),
+  setup: (props: { message: string }) => () =>
+    h("p", {}, [`message: ${props ? props.message : "undefined"}`]),
 };
 
 const CounterComponent = {
@@ -21,7 +21,7 @@ const CounterComponent = {
 
 const app = createApp({
   setup: () => {
-    const state = reactive({ message: "Hello, Chibivue!" });
+    const state = reactive({ message: "Hello, Chibivue" });
 
     return () =>
       h("div", { id: "chibivue" }, [
@@ -29,6 +29,7 @@ const app = createApp({
         h(CounterComponent, {}, []),
         h(CounterComponent, {}, []),
         h(TextComponent, { message: state.message }, []),
+        h("button", { onClick: () => (state.message += "!") }, ["add!"]),
       ]);
   },
 });
