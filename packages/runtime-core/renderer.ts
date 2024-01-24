@@ -58,8 +58,9 @@ export function createRenderer(options: RendererOptions) {
   ) => {
     if (n1 == null) {
       hostInsert(n2.el = hostCreateText(n2.children as string), container);
-    } else if (n2.children !== n1.children) {
-      hostSetText(n2.el = n1.el!, n2.children as string);
+    } else {
+      const el = (n2.el = n1.el!);
+      if (n2.children !== n1.children) hostSetText(el, n2.children as string);
     }
   };
 
