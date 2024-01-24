@@ -44,10 +44,9 @@ export function createRenderer(options: RendererOptions) {
   } = options;
 
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
-    const { type } = n2;
-    if (type === Text) processText(n1, n2, container);
-    else if (typeof type === "string") processElement(n1, n2, container);
-    else if (typeof type === "object") processComponent(n1, n2, container);
+    if (n2.type === Text) processText(n1, n2, container);
+    else if (typeof n2.type === "string") processElement(n1, n2, container);
+    else if (typeof n2.type === "object") processComponent(n1, n2, container);
     else {}
   };
 
@@ -73,9 +72,9 @@ export function createRenderer(options: RendererOptions) {
   };
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
-    const { type, props } = vnode;
+    const { props } = vnode;
     let el: RendererElement;
-    el = vnode.el = hostCreateElement(type as string);
+    el = vnode.el = hostCreateElement(vnode.type as string);
 
     mountChildren(vnode.children as VNode[], el);
 
@@ -133,8 +132,7 @@ export function createRenderer(options: RendererOptions) {
     const instance: ComponentInternalInstance =
       (initialVnode.component = createComponentInstance(initialVnode));
 
-    const { props } = instance.vnode;
-    initProps(instance, props);
+    initProps(instance, instance.vnode.props);
 
     const component = initialVnode.type as Component;
     if (component.setup) {
@@ -158,10 +156,8 @@ export function createRenderer(options: RendererOptions) {
     container: RendererElement,
   ) => {
     const componentUpdate = () => {
-      const { render } = instance;
-
       if (!instance.isMounted) {
-        const subTree = (instance.subTree = normalizeVNode(render()));
+        const subTree = (instance.subTree = normalizeVNode(instance.render()));
         patch(null, subTree, container);
         initialVnode.el = subTree.el;
         instance.isMounted = true;
@@ -178,7 +174,7 @@ export function createRenderer(options: RendererOptions) {
         }
 
         const prevTree = instance.subTree;
-        const nextTree = normalizeVNode(render());
+        const nextTree = normalizeVNode(instance.render());
         instance.subTree = nextTree;
 
         patch(
