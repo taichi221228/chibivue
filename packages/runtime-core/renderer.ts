@@ -8,6 +8,7 @@ import {
   normalizeVNode,
   ReactiveEffect,
   Text,
+  updateProps,
   type VNode,
 } from "chibivue";
 
@@ -169,6 +170,7 @@ export function createRenderer(options: RendererOptions) {
           next.component = vnode.component;
           instance.vnode = next;
           instance.next = null;
+          updateProps(instance, next.props);
         } else {
           next = vnode;
         }
