@@ -1,4 +1,10 @@
-import { type ComponentInternalInstance, type Data, reactive } from "chibivue";
+import {
+  camelize,
+  type ComponentInternalInstance,
+  type Data,
+  hasOwn,
+  reactive,
+} from "chibivue";
 
 export type Props = Record<string, PropOptions | null>;
 
@@ -23,7 +29,9 @@ export const updateProps = (
   instance: ComponentInternalInstance,
   rawProps: Data | null,
 ) => {
-  Object.assign(instance.props, rawProps);
+  Object.entries(rawProps ?? {}).forEach(([key, value]) =>
+    instance.props[camelize(key)] = value
+  );
 };
 
 const setFullProps = (
@@ -35,7 +43,15 @@ const setFullProps = (
 
   if (rawProps) {
     Object.entries(rawProps).forEach(([key, value]) => {
-      if (options && options.hasOwnProperty(key)) props[key] = value;
+      let camelizedKey;
+
+      if (
+        options &&
+        hasOwn(
+          options,
+          camelizedKey = camelize(key),
+        )
+      ) props[camelizedKey] = value;
     });
   }
 };
