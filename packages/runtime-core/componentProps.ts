@@ -19,6 +19,13 @@ export const initProps = (
   instance.props = reactive(props);
 };
 
+export const updateProps = (
+  instance: ComponentInternalInstance,
+  rawProps: Data | null,
+) => {
+  Object.assign(instance.props, rawProps);
+};
+
 const setFullProps = (
   instance: ComponentInternalInstance,
   rawProps: Data | null,
