@@ -1,9 +1,9 @@
 import { createApp, h, reactive } from "chibivue";
 
 const TextComponent = {
-  props: { message: { type: String } },
-  setup: (props: { message: string }) => () =>
-    h("p", {}, [`message: ${props ? props.message : "undefined"}`]),
+  props: { kebabMessage: { type: String } },
+  setup: (props: { kebabMessage: string }) => () =>
+    h("p", {}, [`kebab-message: ${props ? props.kebabMessage : "undefined"}`]),
 };
 
 const CounterComponent = {
@@ -28,7 +28,7 @@ const app = createApp({
         h(CounterComponent, {}, []),
         h(CounterComponent, {}, []),
         h(CounterComponent, {}, []),
-        h(TextComponent, { message: state.message }, []),
+        h(TextComponent, { "kebab-message": state.message }, []),
         h("button", { onClick: () => (state.message += "!") }, ["add!"]),
       ]);
   },
