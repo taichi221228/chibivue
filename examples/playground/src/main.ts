@@ -5,7 +5,9 @@ const TextComponent = {
   setup: (props: { message: string }, { emit }: any) => () =>
     h("div", {}, [
       h("p", {}, [`message: ${props.message}`]),
-      h("button", { onClick: () => emit("change-message") }, ["change message!"]),
+      h("button", { onClick: () => emit("click:change-message") }, [
+        "change message!",
+      ]),
     ]),
 };
 

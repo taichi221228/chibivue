@@ -6,11 +6,11 @@ export const hasOwn = (
 const camelizeRE = /-(\w)/g;
 
 export const camelize = (str: string): string =>
-  str.replace(camelizeRE, (_, c = "") => (c ?? c.toUpperCase()));
+  str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
 
 export const capitalize = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 export const toHandlerKey = (
-  str: string = "",
-): string => (str ?? `on${capitalize(str)}`);
+  str: string,
+): string => (str ? `on${capitalize(str)}` : "");
