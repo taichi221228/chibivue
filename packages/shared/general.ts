@@ -10,3 +10,7 @@ export const camelize = (str: string): string =>
 
 export const capitalize = (str: string): string =>
   str.charAt(0).toUpperCase() + str.slice(1);
+
+export const toHandlerKey = (
+  str: string = "",
+): string => (str ?? `on${capitalize(str)}`);

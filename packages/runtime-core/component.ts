@@ -21,6 +21,7 @@ export interface ComponentInternalInstance {
   isMounted: boolean;
   props: Data;
   propsOptions: Props;
+  emit: (event: string, ...args: any[]) => void;
 }
 
 export type InternalRenderFunction = {
@@ -40,4 +41,5 @@ export const createComponentInstance = (
   isMounted: false,
   props: {},
   propsOptions: (vnode.type as Component).props || {},
+  emit: null!,
 });
