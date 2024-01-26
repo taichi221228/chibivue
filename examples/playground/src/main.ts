@@ -1,7 +1,7 @@
 import { createApp, h, reactive } from "chibivue";
 
 const TextComponent = {
-  props: { kebabMessage: { type: String } },
+  props: { message: { type: String } },
   setup: (props: { message: string }, { emit }: any) => () =>
     h("div", {}, [
       h("p", {}, [`message: ${props.message}`]),
