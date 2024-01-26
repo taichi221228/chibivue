@@ -140,6 +140,7 @@ export function createRenderer(options: RendererOptions) {
     if (component.setup) {
       instance.render = component.setup(
         instance.props,
+        { emit: instance.emit },
       ) as InternalRenderFunction;
     }
 
