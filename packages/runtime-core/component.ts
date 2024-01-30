@@ -29,6 +29,8 @@ export type InternalRenderFunction = {
   (): VNodeChild;
 };
 
+export type CompileFunction = (template: string) => InternalRenderFunction;
+
 export const createComponentInstance = (
   vnode: VNode,
 ): ComponentInternalInstance => {
@@ -49,4 +51,9 @@ export const createComponentInstance = (
   instance.emit = emit.bind(null, instance);
 
   return instance;
+};
+
+let compile: CompileFunction | undefined;
+export const registerRuntimeCompiler = (_compile: any) => {
+  compile = _compile;
 };
