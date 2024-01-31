@@ -10,6 +10,7 @@ import {
   type InternalRenderFunction,
   registerRuntimeCompiler,
 } from "chibivue";
+
 import * as runtimeDom from "./runtime-dom";
 
 const compileToFunction = (template: string): InternalRenderFunction =>
