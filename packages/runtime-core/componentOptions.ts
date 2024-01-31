@@ -5,4 +5,5 @@ export interface ComponentOptions {
     ctx: { emit: (event: string, ...args: any[]) => void },
   ) => Function;
   render?: Function;
+  template?: string;
 }

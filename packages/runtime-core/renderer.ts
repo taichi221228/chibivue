@@ -3,10 +3,9 @@ import {
   type ComponentInternalInstance,
   createComponentInstance,
   createVNode,
-  initProps,
-  type InternalRenderFunction,
   normalizeVNode,
   ReactiveEffect,
+  setupComponent,
   Text,
   updateProps,
   type VNode,
@@ -134,15 +133,7 @@ export function createRenderer(options: RendererOptions) {
     const instance: ComponentInternalInstance =
       (initialVnode.component = createComponentInstance(initialVnode));
 
-    initProps(instance, instance.vnode.props);
-
-    const component = initialVnode.type as Component;
-    if (component.setup) {
-      instance.render = component.setup(
-        instance.props,
-        { emit: instance.emit },
-      ) as InternalRenderFunction;
-    }
+    setupComponent(instance);
 
     setupRenderEffect(instance, initialVnode, container);
   };
