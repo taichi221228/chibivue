@@ -13,6 +13,6 @@ import {
 import * as runtimeDom from "./runtime-dom";
 
 const compileToFunction = (template: string): InternalRenderFunction =>
-  new Function(compile(template))(runtimeDom);
+  new Function("Chibivue", compile(template))(runtimeDom);
 
 registerRuntimeCompiler(compileToFunction);
