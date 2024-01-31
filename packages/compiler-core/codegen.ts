@@ -8,7 +8,7 @@ export const generate = ({
   textContent: string;
 }): string =>
   `return () => {
-    const { h } = Chibivue;
+    const { h } = _chibivue;
     return h(
       "${tag}",
       { ${Object.entries(props).map(([k, v]) => `${k}: "${v}"`).join(", ")} }, 
