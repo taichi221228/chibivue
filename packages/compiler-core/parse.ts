@@ -1,4 +1,4 @@
-import {type ElementNode, NodeTypes, type TemplateChildNode} from "chibivue";
+import { type ElementNode, NodeTypes, type TemplateChildNode } from "chibivue";
 
 export interface ParserContext {
   readonly originalSource: string;
@@ -16,6 +16,10 @@ const createParserContext = (content: string): ParserContext => ({
   column: 1,
 });
 
+// TODO: const parseText = (context: ParserContext): TextNode => {};
+
+// TODO: const parseElement = (context: ParserContext, ancestors: ElementNode[]): ElementNode | undefined => {};
+
 const parseChildren = (
   context: ParserContext,
   ancestors: ElementNode[],
@@ -24,7 +28,19 @@ const parseChildren = (
 
   while (!isEnd(context, ancestors)) {
     const { source } = context;
-    let node: TemplateChildNode | undefined;
+    let node: TemplateChildNode | undefined = undefined;
+
+    /* TODO: if (source[0] === "<") {
+      if (/[a-z]/i.test(source[1])) {
+        node = parseElement(context, ancestors);
+      }
+    } */
+
+    /* TODO: if (!node) {
+      node = parseText(context);
+    } */
+
+    // TODO: pushNode(nodes, node);
   }
 
   return nodes;
@@ -47,6 +63,21 @@ const startsWithEndTagOpen = (source: string, tag: string): boolean =>
   startsWith(source, "</") &&
   source.slice(2, 2 + tag.length).toLowerCase() === tag.toLowerCase() &&
   /[\t\r\n\f />]/.test(source[2 + tag.length] || ">");
+
+const pushNode = (
+  nodes: TemplateChildNode[],
+  node: TemplateChildNode,
+): void => {
+  if (node.type === NodeTypes.TEXT) {
+    const prev = last(nodes);
+    if (prev && prev.type === NodeTypes.TEXT) {
+      prev.content += node.content;
+      return;
+    }
+  }
+
+  nodes.push(node);
+};
 
 const last = <T>(xs: T[]): T | undefined => xs[xs.length - 1];
 
