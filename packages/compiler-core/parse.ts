@@ -39,13 +39,31 @@ const parseText = (context: ParserContext): TextNode => {
     loc: getSelection(context, start),
   };
 };
-
 const parseTextData = (context: ParserContext, length: number): string => {
-  advancedBy(context, length);
+  advanceBy(context, length);
   return context.source.slice(0, length);
 };
 
-// TODO: const parseElement = (context: ParserContext, ancestors: ElementNode[]): ElementNode | undefined => {};
+const parseElement = (
+  context: ParserContext,
+  ancestors: ElementNode[],
+): ElementNode | undefined => {
+  const element = parseTag(context, TagType.Start);
+
+  if (element.isSelfClosing) return element;
+
+  ancestors.push(element);
+  const children = parseChildren(context, ancestors);
+  ancestors.pop();
+
+  element.children = children;
+
+  if (startsWithEndTagOpen(context.source, element.tag)) {
+    parseTag(context, TagType.End);
+  }
+
+  return element;
+};
 
 const parseChildren = (
   context: ParserContext,
@@ -57,15 +75,15 @@ const parseChildren = (
     const { source } = context;
     let node: TemplateChildNode | undefined = undefined;
 
-    /* TODO: if (source[0] === "<") {
+    if (source[0] === "<") {
       if (/[a-z]/i.test(source[1])) {
         node = parseElement(context, ancestors);
       }
-    } */
+    }
 
     if (!node) node = parseText(context);
 
-    // TODO: pushNode(nodes, node);
+    pushNode(nodes, node);
   }
 
   return nodes;
@@ -104,11 +122,13 @@ const pushNode = (
   nodes.push(node);
 };
 
-const advancedBy = (
+const advanceBy = (
   context: ParserContext,
   numberOfCharacters: number,
 ): void => {
   const { source } = context;
+};
+const advanceSpaces = (context: ParserContext): void => {
 };
 const advancePositionWithMutation = (
   position: Position,
