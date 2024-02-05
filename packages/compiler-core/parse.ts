@@ -1,4 +1,5 @@
 import {
+  type AttributeNode,
   type ElementNode,
   NodeTypes,
   type Position,
@@ -14,6 +15,11 @@ export interface ParserContext {
   line: number;
   column: number;
 }
+
+type AttributeValue = {
+  content: string;
+  loc: SourceLocation;
+} | undefined;
 
 const createParserContext = (content: string): ParserContext => ({
   originalSource: content,
@@ -94,6 +100,84 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
     isSelfClosing,
     loc: getSelection(context, start),
   };
+};
+
+const parseAttributes = (
+  context: ParserContext,
+  type: TagType,
+): AttributeNode[] => {
+  const props = [];
+  const attributeNames = new Set<string>();
+
+  while (
+    context.source.length === 0 &&
+    !startsWith(context.source, ">") &&
+    !startsWith(context.source, "/>")
+  ) {
+    const attribute = parseAttribute(context, attributeNames);
+
+    if (type === TagType.Start) props.push(attribute);
+
+    advanceSpaces(context);
+  }
+
+  return props;
+};
+const parseAttribute = (
+  context: ParserContext,
+  nameSet: Set<string>,
+): AttributeNode => {
+  const start = getCursor(context);
+  const match = /^[^\t\r\n\f />][^\t\r\n\f />=]*/.exec(context.source)!;
+  const [name] = match;
+
+  nameSet.add(name);
+
+  advanceBy(context, name.length);
+
+  let value: AttributeValue = undefined;
+
+  if (/^[\t\r\n\f ]*=/.test(context.source)) {
+    advanceSpaces(context);
+    advanceBy(context, 1);
+    advanceSpaces(context);
+    value = parseAttributeValue(context);
+  }
+
+  const loc = getSelection(context, start);
+
+  return {
+    type: NodeTypes.ATTRIBUTE,
+    name,
+    value: value && {
+      type: NodeTypes.TEXT,
+      content: value.content,
+      loc: value.loc,
+    },
+    loc,
+  };
+};
+const parseAttributeValue = (context: ParserContext): AttributeValue => {
+  const start = getCursor(context);
+  const [quote] = context.source;
+  const isQuoted = quote === `"` || quote === `'`;
+
+  let content: string;
+
+  if (isQuoted) {
+    advanceBy(context, 1);
+
+    const endIndex = context.source.indexOf(quote);
+    if (endIndex === -1) {
+      content = parseTextData(context, context.source.length);
+    } else {
+      const match = /^[^\t\r\n\f >]+/.exec(context.source);
+      if (!match) return undefined;
+      content = parseTextData(context, match[0].length);
+    }
+
+    return { content, loc: getSelection(context, start) };
+  }
 };
 
 const parseChildren = (
