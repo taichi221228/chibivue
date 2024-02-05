@@ -44,6 +44,11 @@ const parseTextData = (context: ParserContext, length: number): string => {
   return context.source.slice(0, length);
 };
 
+const enum TagType {
+  Start,
+  End,
+}
+
 const parseElement = (
   context: ParserContext,
   ancestors: ElementNode[],
@@ -63,6 +68,32 @@ const parseElement = (
   }
 
   return element;
+};
+
+const parseTag = (context: ParserContext, type: TagType): ElementNode => {
+  const start = getCursor(context);
+  const match = /^<\/?([a-z][^\t\r\n\f />]*)/i.exec(context.source)!;
+  const tag = match[1];
+
+  let isSelfClosing = false;
+
+  advanceBy(context, match[0].length);
+  advanceSpaces(context);
+
+  let props = parseAttributes(context, type);
+
+  isSelfClosing = startsWith(context.source, "/>");
+
+  advanceBy(context, isSelfClosing ? 2 : 1);
+
+  return {
+    type: NodeTypes.ELEMENT,
+    tag,
+    props,
+    children: [],
+    isSelfClosing,
+    loc: getSelection(context, start),
+  };
 };
 
 const parseChildren = (
