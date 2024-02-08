@@ -81,7 +81,7 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
   const match = /^<\/?([a-z][^\t\r\n\f />]*)/i.exec(context.source)!;
   const tag = match[1];
 
-  let isSelfClosing = false;
+  let isSelfClosing: boolean;
 
   advanceBy(context, match[0].length);
   advanceSpaces(context);
@@ -242,8 +242,12 @@ const advanceBy = (
   numberOfCharacters: number,
 ): void => {
   const { source } = context;
+  advancePositionWithMutation(context, source, numberOfCharacters);
+  context.source = source.slice(numberOfCharacters);
 };
 const advanceSpaces = (context: ParserContext): void => {
+  const match = /^[\t\r\n\f ]+/.exec(context.source);
+  if (match) advanceBy(context, match[0].length);
 };
 const advancePositionWithMutation = (
   position: Position,
@@ -293,6 +297,7 @@ const last = <T>(xs: T[]): T | undefined => xs[xs.length - 1];
 export const baseParse = (
   content: string,
 ): { children: TemplateChildNode[] } => {
-  // TODO:
-  return { children: [] };
+  const context = createParserContext(content);
+  const children = parseChildren(context, []);
+  return { children };
 };
