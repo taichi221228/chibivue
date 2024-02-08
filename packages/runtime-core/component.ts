@@ -74,6 +74,4 @@ export const setupComponent = (
 };
 
 let compile: CompileFunction | undefined;
-export const registerRuntimeCompiler = (_compile: any) => {
-  compile = _compile;
-};
+export const registerRuntimeCompiler = (_compile: any) => (compile = _compile);
