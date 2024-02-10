@@ -9,12 +9,10 @@ export const generate = (
   { children }: { children: TemplateChildNode[] },
 ): string => {
   const [child] = children;
-  return `
-    return () => {
-      const { h } = _chibivue;
-      return ${genNode(child)};
-    };
-  `;
+  return `return () => {
+    const { h } = _chibivue;
+    return ${genNode(child)};
+  };`;
 };
 
 const genNode = (node: TemplateChildNode): string => {
@@ -36,11 +34,9 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
   ).join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
-  return `
-    h(
-      "${tag}",
-      { ${props} },
-      [${children}]
-    )
-  `;
+  return `h(
+    "${tag}",
+    { ${props} },
+    [${children}]
+  )`;
 };
