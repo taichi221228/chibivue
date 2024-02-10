@@ -46,8 +46,9 @@ const parseText = (context: ParserContext): TextNode => {
   };
 };
 const parseTextData = (context: ParserContext, length: number): string => {
+  const rawText = context.source.slice(0, length);
   advanceBy(context, length);
-  return context.source.slice(0, length);
+  return rawText;
 };
 
 const enum TagType {
