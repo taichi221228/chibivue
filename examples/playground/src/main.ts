@@ -4,11 +4,7 @@ const app = createApp({
   template: `
     <div
       class="container"
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content:center;
-      "
+      style="display: flex;flex-direction: column;justify-content: center;"
     >
       <h1>Hello, Chibivue!</h1>
       <img
