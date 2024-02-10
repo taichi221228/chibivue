@@ -109,7 +109,7 @@ const parseAttributes = (
   const attributeNames = new Set<string>();
 
   while (
-    context.source.length === 0 &&
+    context.source.length > 0 &&
     !startsWith(context.source, ">") &&
     !startsWith(context.source, "/>")
   ) {
