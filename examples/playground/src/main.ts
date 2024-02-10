@@ -37,7 +37,7 @@ const app = createApp({
           flex-direction:column;
           justify-content:center;
           align-items:center;
-          gap: 48px;
+          gap: 24px;
           box-sizing: border-box;
           height: 100%;
           padding: 16px;
@@ -46,6 +46,14 @@ const app = createApp({
           
           & * {
             color: inherit;
+          }
+          
+          & h1 {
+            margin: 60px 0;
+          }
+          
+          & p {
+            margin: 40px 0 20px;
           }
           
           & button {
