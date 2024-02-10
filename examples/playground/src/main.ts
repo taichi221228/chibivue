@@ -3,7 +3,7 @@ import { createApp } from "chibivue";
 const app = createApp({
   template: `<div
     class="container"
-    style="display: flex;flex-direction: column;justify-content: center;"
+    style="display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 48px;"
   >
     <h1>Hello, Chibivue!</h1>
     <img
@@ -18,8 +18,8 @@ const app = createApp({
       .container {
         height: 100svh;
         padding: 16px;
-        background-color: #becdbe;
-        color: #2c3e50;
+        background-color: whitesmoke;
+        color: dimgray;
       }
     </style>
   </div>`,
