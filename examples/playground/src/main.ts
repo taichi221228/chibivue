@@ -1,6 +1,16 @@
 import { createApp } from "chibivue";
 
 const app = createApp({
+  setup: () => {
+    Promise.resolve(() => {
+      const [button] = document.getElementsByTagName("button");
+      button && button.addEventListener("click", () => {
+        const [heading] = document.getElementsByTagName("h1");
+        heading && (heading.textContent += "!");
+      });
+    }).then(fn => fn());
+  },
+
   template: `<div
     class="container"
   >
@@ -13,6 +23,7 @@ const app = createApp({
     <p style="font-size: 20px;">
       <b>Chibivue</b> is the minimal Vue.js
     </p>
+    <button>Click me!</button>
     <style>
       body {
         margin: 0;
