@@ -206,6 +206,7 @@ const parseChildren = (
 
 const isEnd = (context: ParserContext, ancestors: ElementNode[]): boolean => {
   const { source } = context;
+
   if (startsWith(source, "</")) {
     for (let i = ancestors.length - 1; i >= 0; i--) {
       if (startsWithEndTagOpen(source, ancestors[i].tag)) return true;
@@ -255,6 +256,7 @@ const advancePositionWithMutation = (
   numberOfCharacters: number,
 ): Position => {
   const NEW_LINE_CHAR_CODE = 10;
+
   let linesCount = 0;
   let lastNewLinePosition = -1;
 
