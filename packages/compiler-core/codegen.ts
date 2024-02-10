@@ -38,5 +38,5 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
     "${tag}",
     { ${props} },
     [${children}]
-  );`;
+  )`;
 };
