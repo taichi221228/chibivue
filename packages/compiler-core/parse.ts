@@ -30,13 +30,13 @@ const createParserContext = (content: string): ParserContext => ({
 });
 
 const parseText = (context: ParserContext): TextNode => {
-  const start = getCursor(context);
   const endToken = "<";
   const index = context.source.indexOf(endToken, 1);
 
   let endIndex = context.source.length;
   if (index !== -1 && endIndex > index) endIndex = index;
 
+  const start = getCursor(context);
   const content = parseTextData(context, endIndex);
 
   return {
@@ -81,12 +81,11 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
   const match = /^<\/?([a-z][^\t\r\n\f />]*)/i.exec(context.source)!;
   const tag = match[1];
 
-  let isSelfClosing: boolean;
-
   advanceBy(context, match[0].length);
   advanceSpaces(context);
 
   let props = parseAttributes(context, type);
+  let isSelfClosing;
 
   isSelfClosing = startsWith(context.source, "/>");
 
@@ -191,9 +190,7 @@ const parseChildren = (
     let node: TemplateChildNode | undefined = undefined;
 
     if (source[0] === "<") {
-      if (/[a-z]/i.test(source[1])) {
-        node = parseElement(context, ancestors);
-      }
+      if (/[a-z]/i.test(source[1])) node = parseElement(context, ancestors);
     }
 
     if (!node) node = parseText(context);
