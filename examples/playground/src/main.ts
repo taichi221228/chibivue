@@ -43,6 +43,22 @@ const app = createApp({
           padding: 16px;
           background-color: whitesmoke;
           color: dimgray;
+          
+          & * {
+            color: inherit;
+          }
+          
+          & button {
+            padding: 8px 16px;
+            font-size: 20px;
+            border: 1px solid dimgray;
+            border-radius: 4px;   
+            cursor: pointer;
+            transition: filter 0.3s;
+            &:hover {
+              filter: brightness(0.9);
+            }
+          }
         }
       }
     </style>
