@@ -170,13 +170,16 @@ const parseAttributeValue = (context: ParserContext): AttributeValue => {
     if (endIndex === -1) {
       content = parseTextData(context, context.source.length);
     } else {
-      const match = /^[^\t\r\n\f >]+/.exec(context.source);
-      if (!match) return undefined;
-      content = parseTextData(context, match[0].length);
+      content = parseTextData(context, endIndex);
+      advanceBy(context, 1);
     }
-
-    return { content, loc: getSelection(context, start) };
+  } else {
+    const [head] = /^[^\t\r\n\f >]+/.exec(context.source) ?? [];
+    if (!head) return undefined;
+    content = parseTextData(context, head.length);
   }
+
+  return { content, loc: getSelection(context, start) };
 };
 
 const parseChildren = (
