@@ -24,6 +24,7 @@ export interface ComponentInternalInstance {
   props: Data;
   propsOptions: Props;
   emit: (event: string, ...args: any[]) => void;
+  setupState: Data;
 }
 
 export type InternalRenderFunction = {
@@ -47,6 +48,7 @@ export const createComponentInstance = (
     props: {},
     propsOptions: (vnode.type as Component).props || {},
     emit: null! as (event: string, ...args: any[]) => void,
+    setupState: {},
   };
 
   instance.emit = emit.bind(null, instance);
