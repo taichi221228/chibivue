@@ -10,7 +10,6 @@ export const generate = (
 ): string => {
   const [child] = children;
   return `return () => {
-    const { h } = _chibivue;
     return ${genNode(child)};
   };`;
 };
@@ -34,7 +33,7 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
   ).join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
-  return `h(
+  return `_chibivue.h(
     "${tag}",
     { ${props} },
     [${children}]

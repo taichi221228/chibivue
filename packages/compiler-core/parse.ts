@@ -229,12 +229,11 @@ const parseChildren = (
   const nodes: TemplateChildNode[] = [];
 
   while (!isEnd(context, ancestors)) {
-    const { source } = context;
-    const [head, first] = source;
+    const [head, first] = context.source;
 
     let node: TemplateChildNode | undefined = undefined;
 
-    if (startsWith(source, "{{")) node = parseInterpolation(context);
+    if (startsWith(context.source, "{{")) node = parseInterpolation(context);
     else if (head === "<") {
       if (/[a-z]/i.test(first)) node = parseElement(context, ancestors);
     }
@@ -248,15 +247,13 @@ const parseChildren = (
 };
 
 const isEnd = (context: ParserContext, ancestors: ElementNode[]): boolean => {
-  const { source } = context;
-
-  if (startsWith(source, "</")) {
+  if (startsWith(context.source, "</")) {
     for (let i = ancestors.length - 1; i >= 0; i--) {
-      if (startsWithEndTagOpen(source, ancestors[i].tag)) return true;
+      if (startsWithEndTagOpen(context.source, ancestors[i].tag)) return true;
     }
   }
 
-  return !source;
+  return !context.source;
 };
 
 const startsWith = (source: string, searchString: string): boolean =>
@@ -285,9 +282,8 @@ const advanceBy = (
   context: ParserContext,
   numberOfCharacters: number,
 ): void => {
-  const { source } = context;
-  advancePositionWithMutation(context, source, numberOfCharacters);
-  context.source = source.slice(numberOfCharacters);
+  advancePositionWithMutation(context, context.source, numberOfCharacters);
+  context.source = context.source.slice(numberOfCharacters);
 };
 const advanceSpaces = (context: ParserContext): void => {
   const match = /^[\t\r\n\f ]+/.exec(context.source);

@@ -14,8 +14,8 @@ import {
   type RendererElement,
 } from "chibivue";
 
-const { render } = createRenderer({ ...nodeOps, patchProp });
-const _createAppAPI = createAppAPI(render);
+const renderer = createRenderer({ ...nodeOps, patchProp });
+const _createAppAPI = createAppAPI(renderer.render);
 
 export const createApp: CreateAppFunction<Element> = (...args) => {
   const app = _createAppAPI(...args);

@@ -73,15 +73,14 @@ export function createRenderer(options: RendererOptions) {
   };
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
-    const { props } = vnode;
     let el: RendererElement;
     el = vnode.el = hostCreateElement(vnode.type as string);
 
     mountChildren(vnode.children as VNode[], el);
 
-    if (props) {
-      Object.entries(props).forEach(([key]) =>
-        hostPatchProp(el, key, props[key])
+    if (vnode.props) {
+      Object.entries(vnode.props).forEach(([key, value]) =>
+        hostPatchProp(el, key, value)
       );
     }
 
