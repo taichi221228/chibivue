@@ -28,7 +28,7 @@ export interface ComponentInternalInstance {
 }
 
 export type InternalRenderFunction = {
-  (): VNodeChild;
+  (ctx: Data): VNodeChild;
 };
 
 export type CompileFunction = (template: string) => InternalRenderFunction;
