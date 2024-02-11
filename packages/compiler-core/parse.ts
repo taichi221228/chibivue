@@ -31,11 +31,14 @@ const createParserContext = (content: string): ParserContext => ({
 });
 
 const parseText = (context: ParserContext): TextNode => {
-  const endToken = "<";
-  const index = context.source.indexOf(endToken, 1);
+  const endTokens = ["<", "{{"];
 
   let endIndex = context.source.length;
-  if (index !== -1 && endIndex > index) endIndex = index;
+
+  endTokens.forEach((token) => {
+    const index = context.source.indexOf(token, 1);
+    if (index !== -1 && endIndex > index) endIndex = index;
+  });
 
   const start = getCursor(context);
   const content = parseTextData(context, endIndex);
