@@ -1,6 +1,6 @@
 export * from "./nodeOps";
-export * from "./patchProps";
-export * from "./modules/attrs";
+export * from "./patchProperties";
+export * from "./modules/attributes";
 export * from "./modules/events";
 
 export { h } from "../runtime-core";
@@ -10,15 +10,15 @@ import {
   type CreateAppFunction,
   createRenderer,
   nodeOps,
-  patchProp,
+  patchProperty,
   type RendererElement,
 } from "chibivue";
 
-const renderer = createRenderer({ ...nodeOps, patchProp });
+const renderer = createRenderer({ ...nodeOps, patchProperty });
 const _createAppAPI = createAppAPI(renderer.render);
 
-export const createApp: CreateAppFunction<Element> = (...args) => {
-  const app = _createAppAPI(...args);
+export const createApp: CreateAppFunction<Element> = (..._arguments) => {
+  const app = _createAppAPI(..._arguments);
   const { mount } = app;
 
   app.mount = (selector: RendererElement | string) => {

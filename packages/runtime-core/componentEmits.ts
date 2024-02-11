@@ -7,13 +7,13 @@ import {
 export const emit = (
   instance: ComponentInternalInstance,
   event: string,
-  ...rawArgs: any[]
+  ...rawArguments: any[]
 ) => {
-  const props = instance.vnode.props || {};
-  let args = rawArgs;
+  const properties = instance.vnode.properties || {};
 
-  let handler = props[toHandlerKey(event)] ||
-    props[toHandlerKey(camelize(event))];
+  let _arguments = rawArguments;
+  let handler = properties[toHandlerKey(event)] ||
+    properties[toHandlerKey(camelize(event))];
 
-  if (handler) handler(...args);
+  if (handler) handler(..._arguments);
 };

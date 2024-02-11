@@ -5,10 +5,10 @@ export const mutableHandlers: ProxyHandler<object> = {
   get: (target, key, receiver) => {
     track(target, key);
 
-    const res = Reflect.get(target, key, receiver);
-    if (res !== null && typeof res === "object") return reactive(res);
+    const result = Reflect.get(target, key, receiver);
+    if (result !== null && typeof result === "object") return reactive(result);
 
-    return res;
+    return result;
   },
 
   set: (target, key, value, receiver) => {

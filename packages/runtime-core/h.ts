@@ -2,8 +2,8 @@ import { createVNode, type VNode } from "chibivue";
 
 export const h = (
   type: string | object,
-  props: VNode["props"],
+  properties: VNode["properties"],
   children: VNode["children"],
 ) => {
-  return createVNode(type, props, children);
+  return createVNode(type, properties, children);
 };

@@ -1,4 +1,4 @@
 export * from "./baseHandler";
-export * from "./dep";
+export * from "./dependence";
 export * from "./effect";
 export * from "./reactive";

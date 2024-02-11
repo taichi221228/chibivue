@@ -19,7 +19,7 @@ export interface SourceLocation {
 
 export interface Node {
   type: NodeTypes;
-  loc: SourceLocation;
+  location: SourceLocation;
 }
 
 export interface TextNode extends Node {
@@ -30,7 +30,7 @@ export interface TextNode extends Node {
 export interface ElementNode extends Node {
   type: NodeTypes.ELEMENT;
   tag: string;
-  props: (AttributeNode | DirectiveNode)[];
+  properties: (AttributeNode | DirectiveNode)[];
   children: TemplateChildNode[];
   isSelfClosing: boolean;
 }
@@ -49,8 +49,8 @@ export interface InterpolationNode extends Node {
 export interface DirectiveNode extends Node {
   type: NodeTypes.DIRECTIVE;
   name: string;
-  arg: string;
-  exp: string;
+  argument: string;
+  expression: string;
 }
 
 export type TemplateChildNode = TextNode | ElementNode | InterpolationNode;

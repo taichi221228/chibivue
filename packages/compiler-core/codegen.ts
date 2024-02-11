@@ -13,8 +13,8 @@ export const generate = (
   { children }: { children: TemplateChildNode[] },
 ): string => {
   const [child] = children;
-  return `return (_ctx) => {
-    with(_ctx) {
+  return `return (_context) => {
+    with(_context) {
       return ${genNode(child)};
     }
   };`;
@@ -36,33 +36,33 @@ const genNode = (node: TemplateChildNode): string => {
 const genText = (text: TextNode): string => `\`${text.content}\``;
 
 const genElement = ({ tag, ...element }: ElementNode): string => {
-  const props = element.props.map((prop) => genProp(prop)).join(", ");
+  const properties = element.properties.map((property) => genProperty(property)).join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
   return `_chibivue.h(
     "${tag}",
-    { ${props} },
+    { ${properties} },
     [${children}]
   )`;
 };
 
 const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
 
-const genProp = (prop: AttributeNode | DirectiveNode): string => {
-  switch (prop.type) {
+const genProperty = (property: AttributeNode | DirectiveNode): string => {
+  switch (property.type) {
     case NodeTypes.ATTRIBUTE:
-      return `${prop.name}: "${prop.value?.content}"`;
+      return `${property.name}: "${property.value?.content}"`;
 
     case NodeTypes.DIRECTIVE: {
-      switch (prop.name) {
+      switch (property.name) {
         case "on":
-          return `${toHandlerKey(prop.arg)}: ${prop.exp}`;
+          return `${toHandlerKey(property.argument)}: ${property.expression}`;
         default:
-          throw new Error(`Unexpected directive name. got "${prop.name}"`);
+          throw new Error(`Unexpected directive name. got "${property.name}"`);
       }
     }
 
     default:
-      throw new Error(`Unexpected prop type.`);
+      throw new Error(`Unexpected property type.`);
   }
 };

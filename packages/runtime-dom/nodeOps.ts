@@ -1,6 +1,6 @@
 import { type RendererOptions } from "chibivue";
 
-export const nodeOps: Omit<RendererOptions, "patchProp"> = {
+export const nodeOps: Omit<RendererOptions, "patchProperty"> = {
   createElement: (tagName) => document.createElement(tagName),
   createText: (text) => document.createTextNode(text),
   setElementText: (node, text) => node.textContent = text,

@@ -7,7 +7,7 @@ import {
   ReactiveEffect,
   setupComponent,
   Text,
-  updateProps,
+  updateProperties,
   type VNode,
 } from "chibivue";
 
@@ -17,7 +17,7 @@ export interface RendererOptions<
 > {
   createElement: (type: string) => HostElement;
   createText: (text: string) => HostNode;
-  patchProp: (el: HostElement, key: string, value: any) => void;
+  patchProperty: (el: HostElement, key: string, value: any) => void;
   setElementText: (node: HostNode, text: string) => void;
   setText: (node: HostNode, text: string) => void;
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
@@ -33,9 +33,9 @@ export type RootRenderFunction<HostElement = RendererElement> = (
   container: HostElement,
 ) => void;
 
-export function createRenderer(options: RendererOptions) {
+export const createRenderer = (options: RendererOptions) => {
   const {
-    patchProp: hostPatchProp,
+    patchProperty: hostPatchProperty,
     createElement: hostCreateElement,
     createText: hostCreateText,
     setText: hostSetText,
@@ -78,9 +78,9 @@ export function createRenderer(options: RendererOptions) {
 
     mountChildren(vnode.children as VNode[], el);
 
-    if (vnode.props) {
-      Object.entries(vnode.props).forEach(([key, value]) =>
-        hostPatchProp(el, key, value)
+    if (vnode.properties) {
+      Object.entries(vnode.properties).forEach(([key, value]) =>
+        hostPatchProperty(el, key, value)
       );
     }
 
@@ -94,14 +94,14 @@ export function createRenderer(options: RendererOptions) {
 
   const patchElement = (n1: VNode, n2: VNode) => {
     const el = (n2.el = n1.el!) as RendererElement;
-    const props = n2.props;
+    const properties = n2.properties;
 
     patchChildren(n1, n2, el);
 
-    if (props) {
-      Object.entries(props).forEach(([key]) => {
-        if (props[key] !== (n1.props?.[key] ?? {})) {
-          hostPatchProp(el, key, props[key]);
+    if (properties) {
+      Object.entries(properties).forEach(([key]) => {
+        if (properties[key] !== (n1.properties?.[key] ?? {})) {
+          hostPatchProperty(el, key, properties[key]);
         }
       });
     }
@@ -164,7 +164,7 @@ export function createRenderer(options: RendererOptions) {
           next.component = vnode.component;
           instance.vnode = next;
           instance.next = null;
-          updateProps(instance, next.props);
+          updateProperties(instance, next.properties);
         } else {
           next = vnode;
         }

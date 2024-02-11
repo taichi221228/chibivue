@@ -1,4 +1,4 @@
-import { patchAttr, patchEvent, type RendererOptions } from "chibivue";
+import { patchAttributes, patchEvent, type RendererOptions } from "chibivue";
 
 type DOMRendererOptions = RendererOptions<Node, Element>;
 
@@ -6,7 +6,7 @@ const onRE = /^on[^a-z]/;
 
 export const isOn = (key: string) => onRE.test(key);
 
-export const patchProp: DOMRendererOptions["patchProp"] = (
+export const patchProperty: DOMRendererOptions["patchProperty"] = (
   el,
   key,
   value,
@@ -14,6 +14,6 @@ export const patchProp: DOMRendererOptions["patchProp"] = (
   if (isOn(key)) {
     patchEvent(el, key, value);
   } else {
-    patchAttr(el, key, value);
+    patchAttributes(el, key, value);
   }
 };

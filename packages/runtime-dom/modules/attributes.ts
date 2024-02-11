@@ -1,4 +1,4 @@
-export const patchAttr = (
+export const patchAttributes = (
   el: Element,
   key: string,
   value: any | null,

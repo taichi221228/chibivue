@@ -2,7 +2,7 @@ import { type ComponentInternalInstance, type RendererNode } from "chibivue";
 
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
-  props: VNodeProps | null;
+  properties: VNodeProperties | null;
   children: VNodeNormalizedChildren;
   el: HostNode | undefined;
   component: ComponentInternalInstance | null;
@@ -10,7 +10,7 @@ export interface VNode<HostNode = RendererNode> {
 
 export type VNodeTypes = string | typeof Text | object;
 
-export interface VNodeProps {
+export interface VNodeProperties {
   [key: string]: any;
 }
 
@@ -26,9 +26,9 @@ export const Text = Symbol();
 
 export const createVNode = (
   type: VNodeTypes,
-  props: VNodeProps | null,
+  properties: VNodeProperties | null,
   children: VNodeNormalizedChildren,
-): VNode => ({ type, props, children, el: undefined, component: null });
+): VNode => ({ type, properties, children, el: undefined, component: null });
 
 export const normalizeVNode = (child: VNodeChild): VNode => {
   if (typeof child === "object") return { ...child } as VNode;

@@ -1,40 +1,40 @@
-import { createDep, type Dep } from "chibivue";
+import { createDependence, type Dependence } from "chibivue";
 
-type KeyToDepMap = Map<any, Dep>;
+type KeyToDependenciesMap = Map<any, Dependence>;
 
-const targetMap = new WeakMap<any, KeyToDepMap>();
+const targetMap = new WeakMap<any, KeyToDependenciesMap>();
 
 export let activeEffect: ReactiveEffect | undefined;
 
 export class ReactiveEffect<T = any> {
-  constructor(public fn: () => T) {}
+  constructor(public callback: () => T) {}
 
   run() {
     let parent: ReactiveEffect | undefined = activeEffect;
     activeEffect = this;
-    const res = this.fn();
+    const result = this.callback();
     activeEffect = parent;
-    return res;
+    return result;
   }
 }
 
 export const track = (target: object, key: unknown) => {
-  let depsMap = targetMap.get(target);
-  if (!depsMap) targetMap.set(target, depsMap = new Map());
+  let dependenciesMap = targetMap.get(target);
+  if (!dependenciesMap) targetMap.set(target, dependenciesMap = new Map());
 
-  let dep = depsMap.get(key);
-  if (!dep) depsMap.set(key, dep = createDep());
+  let dependence = dependenciesMap.get(key);
+  if (!dependence) dependenciesMap.set(key, dependence = createDependence());
 
-  if (activeEffect) dep.add(activeEffect);
+  if (activeEffect) dependence.add(activeEffect);
 };
 
 export const trigger = (target: object, key?: unknown) => {
-  const depsMap = targetMap.get(target);
-  if (!depsMap) return;
+  const dependenceMap = targetMap.get(target);
+  if (!dependenceMap) return;
 
-  const dep = depsMap.get(key);
-  if (dep) {
-    const effects = [...dep];
+  const dependence = dependenceMap.get(key);
+  if (dependence) {
+    const effects = [...dependence];
     effects.forEach((effect) => effect.run());
   }
 };

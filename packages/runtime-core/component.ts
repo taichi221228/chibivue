@@ -1,8 +1,8 @@
 import {
   type ComponentOptions,
   emit,
-  initProps,
-  type Props,
+  initProperties,
+  type Properties,
   type ReactiveEffect,
   type VNode,
   type VNodeChild,
@@ -21,14 +21,14 @@ export interface ComponentInternalInstance {
   render: InternalRenderFunction;
   update: () => void;
   isMounted: boolean;
-  props: Data;
-  propsOptions: Props;
-  emit: (event: string, ...args: any[]) => void;
+  properties: Data;
+  propertiesOptions: Properties;
+  emit: (event: string, ..._arguments: any[]) => void;
   setupState: Data;
 }
 
 export type InternalRenderFunction = {
-  (ctx: Data): VNodeChild;
+  (context: Data): VNodeChild;
 };
 
 export type CompileFunction = (template: string) => InternalRenderFunction;
@@ -45,9 +45,9 @@ export const createComponentInstance = (
     render: null!,
     update: null!,
     isMounted: false,
-    props: {},
-    propsOptions: (vnode.type as Component).props || {},
-    emit: null! as (event: string, ...args: any[]) => void,
+    properties: {},
+    propertiesOptions: (vnode.type as Component).properties || {},
+    emit: null! as (event: string, ..._arguments: any[]) => void,
     setupState: {},
   };
 
@@ -59,11 +59,11 @@ export const createComponentInstance = (
 export const setupComponent = (
   instance: ComponentInternalInstance,
 ) => {
-  initProps(instance, instance.vnode.props);
+  initProperties(instance, instance.vnode.properties);
 
   const component = instance.type;
   if (component.setup) {
-    const setupResult = component.setup(component.props, {
+    const setupResult = component.setup(component.properties, {
       emit: instance.emit,
     }) as InternalRenderFunction;
 

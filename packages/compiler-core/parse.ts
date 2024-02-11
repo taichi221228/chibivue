@@ -20,7 +20,7 @@ export interface ParserContext {
 
 type AttributeValue = {
   content: string;
-  loc: SourceLocation;
+  location: SourceLocation;
 } | undefined;
 
 const createParserContext = (content: string): ParserContext => ({
@@ -47,7 +47,7 @@ const parseText = (context: ParserContext): TextNode => {
   return {
     type: NodeTypes.TEXT,
     content,
-    loc: getSelection(context, start),
+    location: getSelection(context, start),
   };
 };
 const parseTextData = (context: ParserContext, length: number): string => {
@@ -90,7 +90,7 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
   advanceBy(context, match[0].length);
   advanceSpaces(context);
 
-  let props = parseAttributes(context, type);
+  let properties = parseAttributes(context, type);
   let isSelfClosing;
 
   isSelfClosing = startsWith(context.source, "/>");
@@ -100,10 +100,10 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
   return {
     type: NodeTypes.ELEMENT,
     tag,
-    props,
+    properties,
     children: [],
     isSelfClosing,
-    loc: getSelection(context, start),
+    location: getSelection(context, start),
   };
 };
 
@@ -111,7 +111,7 @@ const parseAttributes = (
   context: ParserContext,
   type: TagType,
 ): (AttributeNode | DirectiveNode)[] => {
-  const props = [];
+  const properties = [];
   const attributeNames = new Set<string>();
 
   while (
@@ -121,12 +121,12 @@ const parseAttributes = (
   ) {
     const attribute = parseAttribute(context, attributeNames);
 
-    if (type === TagType.Start) props.push(attribute);
+    if (type === TagType.Start) properties.push(attribute);
 
     advanceSpaces(context);
   }
 
-  return props;
+  return properties;
 };
 const parseAttribute = (
   context: ParserContext,
@@ -149,22 +149,22 @@ const parseAttribute = (
     value = parseAttributeValue(context);
   }
 
-  const loc = getSelection(context, start);
+  const location = getSelection(context, start);
 
   if (/^(v-[A-Za-z0-9-]|@)/.test(name)) {
     const match =
       /(?:^v-([a-z0-9-]+))?(?:(?::|^\.|^@|^#)(\[[^\]]+]|[^.]+))?(.+)?$/i.exec(
         name,
       )!;
-    const arg = match[2] ?? "";
+    const argument = match[2] ?? "";
     const dirName = match[1] || (startsWith(name, "@") ? "on" : "");
 
     return {
       type: NodeTypes.DIRECTIVE,
       name: dirName,
-      exp: value?.content ?? "",
-      loc,
-      arg,
+      expression: value?.content ?? "",
+      location,
+      argument,
     };
   }
 
@@ -174,9 +174,9 @@ const parseAttribute = (
     value: value && {
       type: NodeTypes.TEXT,
       content: value.content,
-      loc: value.loc,
+      location: value.location,
     },
-    loc,
+    location,
   };
 };
 const parseAttributeValue = (context: ParserContext): AttributeValue => {
@@ -202,7 +202,7 @@ const parseAttributeValue = (context: ParserContext): AttributeValue => {
     content = parseTextData(context, head.length);
   }
 
-  return { content, loc: getSelection(context, start) };
+  return { content, location: getSelection(context, start) };
 };
 
 const parseInterpolation = (
@@ -236,7 +236,7 @@ const parseInterpolation = (
   return {
     type: NodeTypes.INTERPOLATION,
     content,
-    loc: getSelection(context, start),
+    location: getSelection(context, start),
   };
 };
 
