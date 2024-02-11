@@ -8,7 +8,7 @@ const app = createApp({
         const [heading] = document.getElementsByTagName("h1");
         heading && (heading.textContent += "!");
       });
-    }).then(fn => fn());
+    }).then((fn) => fn());
   },
 
   template: `<div class="container">
