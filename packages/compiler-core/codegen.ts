@@ -1,5 +1,6 @@
 import {
   type ElementNode,
+  type InterpolationNode,
   NodeTypes,
   type TemplateChildNode,
   type TextNode,
@@ -22,6 +23,8 @@ const genNode = (node: TemplateChildNode): string => {
       return genText(node);
     case NodeTypes.ELEMENT:
       return genElement(node);
+    case NodeTypes.INTERPOLATION:
+      return genInterpolation(node);
     default:
       return "";
   }
@@ -41,3 +44,5 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
     [${children}]
   )`;
 };
+
+const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
