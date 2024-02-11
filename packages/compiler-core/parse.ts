@@ -151,9 +151,9 @@ const parseAttribute = (
 
   const loc = getSelection(context, start);
 
-  if (/^(v-[A-Za-z0-9]|@)]/.test(name)) {
+  if (/^(v-[A-Za-z0-9-]|@)/.test(name)) {
     const match =
-      /(?:^v-([a-z0-9-]+))?(?:(?::|^\.|^@|^#)(\[[^\]]+\]|[^\.]+))?(.+)?$/i.exec(
+      /(?:^v-([a-z0-9-]+))?(?:(?::|^\.|^@|^#)(\[[^\]]+]|[^.]+))?(.+)?$/i.exec(
         name,
       )!;
     const arg = match[2] ?? "";
