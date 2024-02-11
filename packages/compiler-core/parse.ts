@@ -195,7 +195,8 @@ const parseChildren = (
 
     let node: TemplateChildNode | undefined = undefined;
 
-    if (head === "<") {
+    if (startsWith(source, "{{")) node = parseInterpolation(context);
+    else if (head === "<") {
       if (/[a-z]/i.test(first)) node = parseElement(context, ancestors);
     }
 
