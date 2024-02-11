@@ -34,7 +34,9 @@ const genText = (text: TextNode): string => `\`${text.content}\``;
 
 const genElement = ({ tag, ...element }: ElementNode): string => {
   const props = element.props.map(({ name, value }) =>
-    `${name}: "${value?.content}"`
+    name === "@click"
+      ? `onClick: ${value?.content}`
+      : `${name}: "${value?.content}"`
   ).join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
