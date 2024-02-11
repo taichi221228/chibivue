@@ -1,18 +1,15 @@
-import { createApp } from "chibivue";
+import { createApp, reactive } from "chibivue";
 
 const app = createApp({
   setup: () => {
-    Promise.resolve(() => {
-      const [button] = document.getElementsByTagName("button");
-      button && button.addEventListener("click", () => {
-        const [heading] = document.getElementsByTagName("h1");
-        heading && (heading.textContent += "!");
-      });
-    }).then((fn) => fn());
+    const state = reactive({ message: "Hello, Chibivue!" });
+    const onClick = () => (state.message += "!");
+
+    return { state, onClick };
   },
 
   template: `<div class="container">
-    <h1 style="font-size: 60px;">Hello, Chibivue!</h1>
+    <h1 style="font-size: 60px;">{{state.message}}</h1>
     <img
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png"
       alt="Vue.js Logo"
