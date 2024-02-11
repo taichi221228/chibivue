@@ -18,7 +18,7 @@ const app = createApp({
     <p style="font-size: 20px;">
       <b>Chibivue</b> is the minimal Vue.js
     </p>
-    <button>Click me!</button>
+    <button @click="onClick">Click me!</button>
     <style>
       body {
         margin: 0;
