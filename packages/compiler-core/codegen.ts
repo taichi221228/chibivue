@@ -33,11 +33,7 @@ const genNode = (node: TemplateChildNode): string => {
 const genText = (text: TextNode): string => `\`${text.content}\``;
 
 const genElement = ({ tag, ...element }: ElementNode): string => {
-  const props = element.props.map(({ name, value }) =>
-    name === "@click"
-      ? `onClick: ${value?.content}`
-      : `${name}: "${value?.content}"`
-  ).join(", ");
+  const props = element.props.map((prop) => genProp(prop)).join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
   return `_chibivue.h(
@@ -48,3 +44,6 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
 };
 
 const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
+
+// TODO: impl `genProp`
+const genProp = (prop: any) => {};
