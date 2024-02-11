@@ -14,6 +14,7 @@ const app = createApp({
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png"
       alt="Vue.js Logo"
       width="260"
+      height="225"
     />
     <p style="font-size: 20px;">
       <b>Chibivue</b> is the minimal Vue.js
