@@ -3,6 +3,7 @@ export const enum NodeTypes {
   ELEMENT,
   ATTRIBUTE,
   INTERPOLATION,
+  DIRECTIVE,
 }
 
 export interface Position {
@@ -29,7 +30,7 @@ export interface TextNode extends Node {
 export interface ElementNode extends Node {
   type: NodeTypes.ELEMENT;
   tag: string;
-  props: AttributeNode[];
+  props: (AttributeNode | DirectiveNode)[];
   children: TemplateChildNode[];
   isSelfClosing: boolean;
 }
@@ -43,6 +44,13 @@ export interface AttributeNode extends Node {
 export interface InterpolationNode extends Node {
   type: NodeTypes.INTERPOLATION;
   content: string;
+}
+
+export interface DirectiveNode extends Node {
+  type: NodeTypes.DIRECTIVE;
+  name: string;
+  arg: string;
+  exp: string;
 }
 
 export type TemplateChildNode = TextNode | ElementNode | InterpolationNode;
