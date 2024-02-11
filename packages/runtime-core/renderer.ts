@@ -193,4 +193,4 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   return { render };
-}
+};

@@ -36,7 +36,8 @@ const genNode = (node: TemplateChildNode): string => {
 const genText = (text: TextNode): string => `\`${text.content}\``;
 
 const genElement = ({ tag, ...element }: ElementNode): string => {
-  const properties = element.properties.map((property) => genProperty(property)).join(", ");
+  const properties = element.properties.map((property) => genProperty(property))
+    .join(", ");
   const children = element.children.map((it) => genNode(it)).join(", ");
 
   return `_chibivue.h(
