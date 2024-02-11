@@ -15,5 +15,5 @@ export const emit = (
   let handler = properties[toHandlerKey(event)] ||
     properties[toHandlerKey(camelize(event))];
 
-  if (handler) handler(..._arguments);
+  handler?.(..._arguments);
 };
