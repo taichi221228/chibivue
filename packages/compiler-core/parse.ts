@@ -1,5 +1,6 @@
 import {
   type AttributeNode,
+  type DirectiveNode,
   type ElementNode,
   type InterpolationNode,
   NodeTypes,
@@ -109,7 +110,7 @@ const parseTag = (context: ParserContext, type: TagType): ElementNode => {
 const parseAttributes = (
   context: ParserContext,
   type: TagType,
-): AttributeNode[] => {
+): (AttributeNode | DirectiveNode)[] => {
   const props = [];
   const attributeNames = new Set<string>();
 
@@ -130,7 +131,7 @@ const parseAttributes = (
 const parseAttribute = (
   context: ParserContext,
   nameSet: Set<string>,
-): AttributeNode => {
+): AttributeNode | DirectiveNode => {
   const start = getCursor(context);
   const match = /^[^\t\r\n\f />][^\t\r\n\f />=]*/.exec(context.source)!;
   const [name] = match;
@@ -149,6 +150,23 @@ const parseAttribute = (
   }
 
   const loc = getSelection(context, start);
+
+  if (/^(v-[A-Za-z0-9]|@)]/.test(name)) {
+    const match =
+      /(?:^v-([a-z0-9-]+))?(?:(?::|^\.|^@|^#)(\[[^\]]+\]|[^\.]+))?(.+)?$/i.exec(
+        name,
+      )!;
+    const arg = match[2] ?? "";
+    const dirName = match[1] || (startsWith(name, "@") ? "on" : "");
+
+    return {
+      type: NodeTypes.DIRECTIVE,
+      name: dirName,
+      exp: value?.content ?? "",
+      loc,
+      arg,
+    };
+  }
 
   return {
     type: NodeTypes.ATTRIBUTE,
