@@ -59,13 +59,13 @@ export const createComponentInstance = (
 export const setupComponent = (
   instance: ComponentInternalInstance,
 ) => {
-  initProps(instance, instance.vnode.props);
+  const { type, vnode, emit } = instance;
 
-  const component = instance.type;
-  if (component.setup) {
-    const setupResult = component.setup(instance.props, {
-      emit: instance.emit,
-    }) as InternalRenderFunction;
+  initProps(instance, vnode.props);
+
+  const { props, setup, render, template } = type;
+  if (setup) {
+    const setupResult = setup(props, { emit }) as InternalRenderFunction;
 
     if (typeof setupResult === "function") instance.render = setupResult;
     else if (typeof setupResult === "object" && setupResult !== null) {
@@ -73,10 +73,7 @@ export const setupComponent = (
     }
   }
 
-  if (compile && !component.render) {
-    const template = component.template ?? "";
-    if (template) instance.render = compile(template);
-  }
+  if (compile && !render) instance.render = compile(template ?? "");
 };
 
 let compile: CompileFunction | undefined;
