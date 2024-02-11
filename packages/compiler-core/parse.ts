@@ -191,10 +191,12 @@ const parseChildren = (
 
   while (!isEnd(context, ancestors)) {
     const { source } = context;
+    const [head, first] = source;
+
     let node: TemplateChildNode | undefined = undefined;
 
-    if (source[0] === "<") {
-      if (/[a-z]/i.test(source[1])) node = parseElement(context, ancestors);
+    if (head === "<") {
+      if (/[a-z]/i.test(first)) node = parseElement(context, ancestors);
     }
 
     if (!node) node = parseText(context);
