@@ -9,8 +9,10 @@ export const generate = (
   { children }: { children: TemplateChildNode[] },
 ): string => {
   const [child] = children;
-  return `return () => {
-    return ${genNode(child)};
+  return `return (_ctx) => {
+    with(_ctx) {
+      return ${genNode(child)};
+    }
   };`;
 };
 
