@@ -3,7 +3,7 @@ export interface ComponentOptions {
   setup?: (
     props: ComponentOptions["props"],
     ctx: { emit: (event: string, ...args: any[]) => void },
-  ) => Function | void;
+  ) => Function | Record<string, unknown> | void;
   render?: Function;
   template?: string;
 }
