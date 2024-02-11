@@ -1,9 +1,12 @@
 import {
+  type AttributeNode,
+  type DirectiveNode,
   type ElementNode,
   type InterpolationNode,
   NodeTypes,
   type TemplateChildNode,
   type TextNode,
+  toHandlerKey,
 } from "chibivue";
 
 export const generate = (
@@ -45,5 +48,21 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
 
 const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
 
-// TODO: impl `genProp`
-const genProp = (prop: any) => {};
+const genProp = (prop: AttributeNode | DirectiveNode): string => {
+  switch (prop.type) {
+    case NodeTypes.ATTRIBUTE:
+      return `${prop.name}: ${prop.value?.content}`;
+
+    case NodeTypes.DIRECTIVE: {
+      switch (prop.name) {
+        case "on":
+          return `${toHandlerKey(prop.arg)}: ${prop.exp}`;
+        default:
+          throw new Error(`Unexpected directive name. got "${prop.name}"`);
+      }
+    }
+
+    default:
+      throw new Error(`Unexpected prop type.`);
+  }
+};
