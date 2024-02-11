@@ -150,7 +150,9 @@ export function createRenderer(options: RendererOptions) {
   ) => {
     const componentUpdate = () => {
       if (!instance.isMounted) {
-        const subTree = (instance.subTree = normalizeVNode(instance.render()));
+        const subTree = (instance.subTree = normalizeVNode(
+          instance.render(instance.setupState),
+        ));
         patch(null, subTree, container);
         initialVnode.el = subTree.el;
         instance.isMounted = true;
@@ -168,7 +170,7 @@ export function createRenderer(options: RendererOptions) {
         }
 
         const prevTree = instance.subTree;
-        const nextTree = normalizeVNode(instance.render());
+        const nextTree = normalizeVNode(instance.render(instance.setupState));
         instance.subTree = nextTree;
 
         patch(
