@@ -51,7 +51,7 @@ const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
 const genProp = (prop: AttributeNode | DirectiveNode): string => {
   switch (prop.type) {
     case NodeTypes.ATTRIBUTE:
-      return `${prop.name}: ${prop.value?.content}`;
+      return `${prop.name}: "${prop.value?.content}"`;
 
     case NodeTypes.DIRECTIVE: {
       switch (prop.name) {
