@@ -63,10 +63,14 @@ export const setupComponent = (
 
   const component = instance.type;
   if (component.setup) {
-    instance.render = component.setup(
-      instance.props,
-      { emit: instance.emit },
-    ) as InternalRenderFunction;
+    const setupResult = component.setup(instance.props, {
+      emit: instance.emit,
+    }) as InternalRenderFunction;
+
+    if (typeof setupResult === "function") instance.render = setupResult;
+    else if (typeof setupResult === "object" && setupResult !== null) {
+      instance.setupState = setupResult;
+    }
   }
 
   if (compile && !component.render) {
