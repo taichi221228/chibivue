@@ -1,6 +1,7 @@
 import {
   type AttributeNode,
   type ElementNode,
+  type InterpolationNode,
   NodeTypes,
   type Position,
   type SourceLocation,
@@ -181,6 +182,41 @@ const parseAttributeValue = (context: ParserContext): AttributeValue => {
   }
 
   return { content, loc: getSelection(context, start) };
+};
+
+const parseInterpolation = (
+  context: ParserContext,
+): InterpolationNode | undefined => {
+  const [open, close] = ["{{", "}}"];
+  const closeIndex = context.source.indexOf(close, open.length);
+  if (closeIndex === -1) return undefined;
+
+  const start = getCursor(context);
+  advanceBy(context, open.length);
+
+  const innerStart = getCursor(context);
+  const innerEnd = getCursor(context);
+
+  const rawContentLength = closeIndex - open.length;
+  const rawContent = context.source.slice(0, rawContentLength);
+
+  const preTrimContent = parseTextData(context, rawContentLength);
+  const content = preTrimContent.trim();
+
+  const startOffset = preTrimContent.indexOf(content);
+  if (startOffset > 0) {
+    advancePositionWithMutation(innerStart, rawContent, startOffset);
+  }
+  const endOffset = rawContent.length -
+    (preTrimContent.length - content.length - startOffset);
+  advancePositionWithMutation(innerEnd, rawContent, endOffset);
+  advanceBy(context, close.length);
+
+  return {
+    type: NodeTypes.INTERPOLATION,
+    content,
+    loc: getSelection(context, start),
+  };
 };
 
 const parseChildren = (
