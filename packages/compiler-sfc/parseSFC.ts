@@ -45,7 +45,7 @@ export interface SFCParseResult {
 
 export const DEFAULT_FILENAME = "anonymous.vue";
 
-export const parse = (
+export const parseSFC = (
   source: string,
   { filename = DEFAULT_FILENAME, compiler = CompilerDOM }: SFCParseOptions,
 ): SFCParseResult => {
