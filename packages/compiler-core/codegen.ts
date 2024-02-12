@@ -12,10 +12,10 @@ import {
 export const generate = (
   { children }: { children: TemplateChildNode[] },
 ): string => {
-  const [child] = children;
+  const [node] = children;
   return `return (_context) => {
     with(_context) {
-      return ${genNode(child)};
+      return ${genNode(node)};
     }
   };`;
 };
