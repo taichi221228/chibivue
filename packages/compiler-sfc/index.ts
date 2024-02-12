@@ -1,1 +1,1 @@
-// TODO: Implement the compiler for SFC
+export * from "./parse";
