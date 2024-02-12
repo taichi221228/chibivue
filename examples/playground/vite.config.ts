@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import chibivue from "../../packages/@extensions/vite-plugin-chibivue";
 
 export default defineConfig({
   resolve: {
@@ -6,4 +7,5 @@ export default defineConfig({
       chibivue: `${process.cwd()}/../../packages`,
     },
   },
+  plugins: [chibivue()],
 });
