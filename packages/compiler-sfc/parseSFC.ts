@@ -96,10 +96,10 @@ const createBlock = (
   const [first] = node.children;
   const last = node.children[node.children.length - 1];
 
-  let { start, end } = node.location;
+  node.location.start = first.location.start;
+  node.location.end = last.location.end;
 
-  start = first.location.start;
-  end = last.location.end;
+  const { start, end } = node.location;
 
   const content = source.slice(start.offset, end.offset);
 
