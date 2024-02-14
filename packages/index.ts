@@ -1,8 +1,8 @@
+import { compile } from "./compiler-dom";
 import {
-  compile,
   type InternalRenderFunction,
   registerRuntimeCompiler,
-} from "chibivue";
+} from "./runtime-core";
 
 import * as runtimeDom from "./runtime-dom";
 
