@@ -1,10 +1,7 @@
-import {
-  camelize,
-  type ComponentInternalInstance,
-  type Data,
-  hasOwn,
-  reactive,
-} from "chibivue";
+import { reactive } from "../reactivity";
+import { camelize, hasOwn } from "../shared";
+
+import { type ComponentInternalInstance, type Data } from "./component";
 
 export type Properties = Record<string, PropertyOptions | null>;
 

@@ -1,4 +1,5 @@
-import { type ComponentInternalInstance, type RendererNode } from "chibivue";
+import { type ComponentInternalInstance } from "./component";
+import { type RendererNode } from "./renderer";
 
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;

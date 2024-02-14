@@ -1,4 +1,5 @@
-import { type Component, type RootRenderFunction } from "chibivue";
+import { type Component } from "./component";
+import { type RootRenderFunction } from "./renderer";
 
 export interface App<HostElement = any> {
   mount: (rootContainer: HostElement | string) => void;

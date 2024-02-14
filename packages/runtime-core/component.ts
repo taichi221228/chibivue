@@ -1,12 +1,12 @@
+import { type ReactiveEffect } from "../reactivity";
 import {
   type ComponentOptions,
   emit,
   initProperties,
   type Properties,
-  type ReactiveEffect,
   type VNode,
   type VNodeChild,
-} from "chibivue";
+} from "../runtime-core";
 
 export type Data = Record<string, unknown>;
 

@@ -1,15 +1,13 @@
+import { ReactiveEffect } from "../reactivity";
+
 import {
   type Component,
   type ComponentInternalInstance,
   createComponentInstance,
-  createVNode,
-  normalizeVNode,
-  ReactiveEffect,
   setupComponent,
-  Text,
-  updateProperties,
-  type VNode,
-} from "chibivue";
+} from "./component";
+import { updateProperties } from "./componentProperties";
+import { createVNode, normalizeVNode, Text, type VNode } from "./vnode";
 
 export interface RendererOptions<
   HostNode = RendererNode,

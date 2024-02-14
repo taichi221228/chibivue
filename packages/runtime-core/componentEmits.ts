@@ -1,8 +1,6 @@
-import {
-  camelize,
-  type ComponentInternalInstance,
-  toHandlerKey,
-} from "chibivue";
+import { camelize, toHandlerKey } from "../shared";
+
+import { type ComponentInternalInstance } from "./component";
 
 export const emit = (
   instance: ComponentInternalInstance,
