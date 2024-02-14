@@ -1,3 +1,5 @@
+import { toHandlerKey } from "../shared";
+
 import {
   type AttributeNode,
   type DirectiveNode,
@@ -6,8 +8,7 @@ import {
   NodeTypes,
   type TemplateChildNode,
   type TextNode,
-  toHandlerKey,
-} from "chibivue";
+} from "./ast";
 
 export const generate = (
   { children }: { children: TemplateChildNode[] },

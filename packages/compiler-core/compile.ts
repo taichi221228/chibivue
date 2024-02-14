@@ -1,4 +1,4 @@
-import { baseParse, generate } from "chibivue";
+import { baseParse, generate } from "../compiler-core";
 
 export const baseCompile = (template: string) => {
   const parseResult = baseParse(template.trim());

@@ -8,7 +8,7 @@ import {
   type SourceLocation,
   type TemplateChildNode,
   type TextNode,
-} from "chibivue";
+} from "./ast";
 
 export interface ParserContext {
   readonly originalSource: string;
