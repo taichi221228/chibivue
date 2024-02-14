@@ -1,9 +1,11 @@
 import {
-  ElementNode,
+  type ElementNode,
   NodeTypes,
   type SourceLocation,
-  type TemplateCompiler,
-} from "chibivue";
+} from "../compiler-core";
+
+import { type TemplateCompiler } from "./compileTemplate";
+
 import * as CompilerDOM from "../compiler-dom";
 
 export interface SFCDescriptor {
