@@ -1,2 +1,2 @@
 export * from "./compileTemplate";
-export * from "./parseSFC";
+export * from "./parse";

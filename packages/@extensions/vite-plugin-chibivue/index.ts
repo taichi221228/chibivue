@@ -1,6 +1,6 @@
 import { createFilter, type Plugin } from "vite";
 
-import { parseSFC } from "../../compiler-sfc";
+import { parse } from "../../compiler-sfc";
 
 export default (): Plugin => {
   const filter = createFilter(/\.vue$/);
@@ -10,7 +10,7 @@ export default (): Plugin => {
     transform: (code, id) => {
       if (!filter(id)) return;
 
-      const { descriptor } = parseSFC(code, { filename: id });
+      const { descriptor } = parse(code, { filename: id });
 
       console.log(
         "🚀 ~ file: index.ts:14 ~ transform ~ descriptor:",
