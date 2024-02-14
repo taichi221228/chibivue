@@ -1,4 +1,4 @@
-import { baseCompile, baseParse } from "chibivue";
+import { baseCompile, baseParse } from "../compiler-core";
 
 export const compile = (template: string) => baseCompile(template);
 
