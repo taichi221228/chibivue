@@ -1,4 +1,4 @@
-import { type RendererOptions } from "chibivue";
+import { type RendererOptions } from "../runtime-core";
 
 export const nodeOps: Omit<RendererOptions, "patchProperty"> = {
   createElement: (tagName) => document.createElement(tagName),

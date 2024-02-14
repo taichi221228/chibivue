@@ -1,4 +1,7 @@
-import { patchAttributes, patchEvent, type RendererOptions } from "chibivue";
+import { type RendererOptions } from "../runtime-core";
+
+import { patchAttributes } from "./modules/attributes";
+import { patchEvent } from "./modules/events";
 
 type DOMRendererOptions = RendererOptions<Node, Element>;
 

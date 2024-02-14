@@ -9,10 +9,11 @@ import {
   createAppAPI,
   type CreateAppFunction,
   createRenderer,
-  nodeOps,
-  patchProperty,
   type RendererElement,
-} from "chibivue";
+} from "../runtime-core";
+
+import { nodeOps } from "./nodeOps";
+import { patchProperty } from "./patchProperties";
 
 const renderer = createRenderer({ ...nodeOps, patchProperty });
 const _createAppAPI = createAppAPI(renderer.render);
