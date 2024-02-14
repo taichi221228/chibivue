@@ -1,3 +1,5 @@
+export { createApp } from "./runtime-dom";
+
 import { compile } from "./compiler-dom";
 import {
   type InternalRenderFunction,
