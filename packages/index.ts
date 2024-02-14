@@ -1,4 +1,5 @@
 export { createApp } from "./runtime-dom";
+export { reactive } from "./reactivity";
 
 import { compile } from "./compiler-dom";
 import {
