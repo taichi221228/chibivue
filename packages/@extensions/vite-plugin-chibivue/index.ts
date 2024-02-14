@@ -1,5 +1,6 @@
 import { createFilter, type Plugin } from "vite";
-import { parseSFC } from "chibivue";
+
+import { parseSFC } from "../../compiler-sfc";
 
 export default (): Plugin => {
   const filter = createFilter(/\.vue$/);
