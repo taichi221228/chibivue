@@ -1,5 +1,5 @@
-import { track, trigger } from "chibivue";
-import { reactive } from "chibivue";
+import { track, trigger } from "./effect";
+import { reactive } from "./reactive";
 
 export const mutableHandlers: ProxyHandler<object> = {
   get: (target, key, receiver) => {

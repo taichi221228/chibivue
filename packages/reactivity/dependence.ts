@@ -1,4 +1,4 @@
-import { type ReactiveEffect } from "chibivue";
+import { type ReactiveEffect } from "./effect";
 
 export type Dependence = Set<ReactiveEffect>;
 

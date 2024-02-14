@@ -1,4 +1,4 @@
-import { createDependence, type Dependence } from "chibivue";
+import { createDependence, type Dependence } from "./dependence";
 
 type KeyToDependenciesMap = Map<any, Dependence>;
 
