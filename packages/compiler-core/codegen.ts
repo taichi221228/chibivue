@@ -9,16 +9,19 @@ import {
   type TemplateChildNode,
   type TextNode,
 } from "./ast";
+import { type CompilerOptions } from "./options";
 
 export const generate = (
   { children }: { children: TemplateChildNode[] },
+  options: Required<CompilerOptions>,
 ): string => {
   const [node] = children;
-  return `return (_context) => {
+  return `const render = (_context) => {
     with(_context) {
       return ${genNode(node)};
     }
-  };`;
+  };
+  ${options.isBrowser ? "return render;" : ""}`;
 };
 
 const genNode = (node: TemplateChildNode): string => {

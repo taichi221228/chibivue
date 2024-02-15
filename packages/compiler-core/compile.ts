@@ -1,6 +1,9 @@
-import { baseParse, generate } from "../compiler-core";
+import { baseParse, type CompilerOptions, generate } from "../compiler-core";
 
-export const baseCompile = (template: string) => {
+export const baseCompile = (
+  template: string,
+  options: Required<CompilerOptions>,
+) => {
   const parseResult = baseParse(template.trim());
 
   console.log(
@@ -8,5 +11,5 @@ export const baseCompile = (template: string) => {
     parseResult,
   );
 
-  return generate(parseResult);
+  return generate(parseResult, options);
 };
