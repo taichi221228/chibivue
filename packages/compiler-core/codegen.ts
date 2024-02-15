@@ -17,21 +17,19 @@ export const generate = (
 ): string => {
   const [node] = children;
   return `const render = (_context) => {
-    with(_context) {
-      return ${genNode(node)};
-    }
+    ${options.isBrowser ? "with(_context)" : ""} return ${genNode(node, options)};
   };
   ${options.isBrowser ? "return render;" : ""}`;
 };
 
-const genNode = (node: TemplateChildNode): string => {
+const genNode = (node: TemplateChildNode, options: Required<CompilerOptions>): string => {
   switch (node.type) {
     case NodeTypes.TEXT:
       return genText(node);
     case NodeTypes.ELEMENT:
-      return genElement(node);
+      return genElement(node, options);
     case NodeTypes.INTERPOLATION:
-      return genInterpolation(node);
+      return genInterpolation(node, options);
     default:
       return "";
   }
@@ -39,10 +37,10 @@ const genNode = (node: TemplateChildNode): string => {
 
 const genText = (text: TextNode): string => `\`${text.content}\``;
 
-const genElement = ({ tag, ...element }: ElementNode): string => {
-  const properties = element.properties.map((property) => genProperty(property))
+const genElement = ({ tag, ...element }: ElementNode, options: Required<CompilerOptions>): string => {
+  const properties = element.properties.map((property) => genProperty(property, options))
     .join(", ");
-  const children = element.children.map((it) => genNode(it)).join(", ");
+  const children = element.children.map((it) => genNode(it, options)).join(", ");
 
   return `_chibivue.h(
     "${tag}",
@@ -51,9 +49,15 @@ const genElement = ({ tag, ...element }: ElementNode): string => {
   )`;
 };
 
-const genInterpolation = (node: InterpolationNode): string => `${node.content}`;
+const genInterpolation = (
+  node: InterpolationNode,
+  options: Required<CompilerOptions>,
+): string => `${options.isBrowser ? "_context." : ""}${node.content}`;
 
-const genProperty = (property: AttributeNode | DirectiveNode): string => {
+const genProperty = (
+  property: AttributeNode | DirectiveNode,
+  options: Required<CompilerOptions>,
+): string => {
   switch (property.type) {
     case NodeTypes.ATTRIBUTE:
       return `${property.name}: "${property.value?.content}"`;
@@ -61,7 +65,9 @@ const genProperty = (property: AttributeNode | DirectiveNode): string => {
     case NodeTypes.DIRECTIVE: {
       switch (property.name) {
         case "on":
-          return `${toHandlerKey(property.parameter)}: ${property.expression}`;
+          return `${toHandlerKey(property.parameter)}: ${
+            options.isBrowser ? "_context." : ""
+          }${property.expression}`;
         default:
           throw new Error(`Unexpected directive name. got "${property.name}"`);
       }
