@@ -1,5 +1,6 @@
 import { createFilter, type Plugin } from "vite";
 
+import { compile } from "../../compiler-dom";
 import { parse } from "../../compiler-sfc";
 
 export default (): Plugin => {
@@ -11,6 +12,9 @@ export default (): Plugin => {
       if (!filter(id)) return;
 
       const { descriptor } = parse(code, { filename: id });
+      const templateCode = compile(descriptor.template?.content ?? "", {
+        isBrowser: true,
+      });
 
       console.log(
         "🚀 ~ file: index.ts:14 ~ transform ~ descriptor:",
@@ -18,8 +22,9 @@ export default (): Plugin => {
       );
 
       return {
-        // TODO: Implement the transform function
-        code: "export default {}",
+        code: `import * as _chibivue from "chibivue";
+          ${templateCode}
+          export default { render };`,
       };
     },
   };
