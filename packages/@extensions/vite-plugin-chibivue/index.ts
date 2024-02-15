@@ -13,7 +13,7 @@ export default (): Plugin => {
 
       const { descriptor } = parse(code, { filename: id });
       const templateCode = compile(descriptor.template?.content ?? "", {
-        isBrowser: true,
+        isBrowser: false,
       });
 
       console.log(
