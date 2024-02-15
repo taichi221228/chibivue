@@ -49,7 +49,7 @@ export interface InterpolationNode extends Node {
 export interface DirectiveNode extends Node {
   type: NodeTypes.DIRECTIVE;
   name: string;
-  argument: string;
+  parameter: string;
   expression: string;
 }
 

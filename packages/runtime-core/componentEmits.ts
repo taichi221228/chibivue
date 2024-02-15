@@ -9,9 +9,9 @@ export const emit = (
 ) => {
   const properties = instance.vnode.properties || {};
 
-  let _arguments = rawArguments;
+  let parameters = rawArguments;
   let handler = properties[toHandlerKey(event)] ||
     properties[toHandlerKey(camelize(event))];
 
-  handler?.(..._arguments);
+  handler?.(...parameters);
 };

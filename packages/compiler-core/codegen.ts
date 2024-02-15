@@ -58,7 +58,7 @@ const genProperty = (property: AttributeNode | DirectiveNode): string => {
     case NodeTypes.DIRECTIVE: {
       switch (property.name) {
         case "on":
-          return `${toHandlerKey(property.argument)}: ${property.expression}`;
+          return `${toHandlerKey(property.parameter)}: ${property.expression}`;
         default:
           throw new Error(`Unexpected directive name. got "${property.name}"`);
       }

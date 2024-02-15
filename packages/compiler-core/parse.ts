@@ -156,7 +156,7 @@ const parseAttribute = (
       /(?:^v-([a-z0-9-]+))?(?:(?::|^\.|^@|^#)(\[[^\]]+]|[^.]+))?(.+)?$/i.exec(
         name,
       )!;
-    const argument = match[2] ?? "";
+    const parameter = match[2] ?? "";
     const dirName = match[1] || (startsWith(name, "@") ? "on" : "");
 
     return {
@@ -164,7 +164,7 @@ const parseAttribute = (
       name: dirName,
       expression: value?.content ?? "",
       location,
-      argument,
+      parameter,
     };
   }
 

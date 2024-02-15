@@ -23,7 +23,7 @@ export interface ComponentInternalInstance {
   isMounted: boolean;
   properties: Data;
   propertiesOptions: Properties;
-  emit: (event: string, ..._arguments: any[]) => void;
+  emit: (event: string, ...parameters: any[]) => void;
   setupState: Data;
 }
 
@@ -47,7 +47,7 @@ export const createComponentInstance = (
     isMounted: false,
     properties: {},
     propertiesOptions: (vnode.type as Component).properties || {},
-    emit: null! as (event: string, ..._arguments: any[]) => void,
+    emit: null! as (event: string, ...parameters: any[]) => void,
     setupState: {},
   };
 

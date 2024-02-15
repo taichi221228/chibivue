@@ -18,8 +18,8 @@ import { patchProperty } from "./patchProperties";
 const renderer = createRenderer({ ...nodeOps, patchProperty });
 const _createAppAPI = createAppAPI(renderer.render);
 
-export const createApp: CreateAppFunction<Element> = (..._arguments) => {
-  const app = _createAppAPI(..._arguments);
+export const createApp: CreateAppFunction<Element> = (...parameters) => {
+  const app = _createAppAPI(...parameters);
   const { mount } = app;
 
   app.mount = (selector: RendererElement | string) => {
