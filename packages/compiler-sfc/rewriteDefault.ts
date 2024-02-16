@@ -1,3 +1,6 @@
+import { parse } from "@babel/parser";
+import MagicString from "magic-string";
+
 const defaultExportRE = /((?:^|\n|;)\s*)export\s+default\s+/;
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)(?:as)?(\s*)default/s;
 
@@ -7,7 +10,13 @@ export const rewriteDefault = (input: string, as: string): string => {
     const ${as} = {};`;
   }
 
-  // TODO: Impl
+  const _string = new MagicString(input);
+  const ast = parse(input, { sourceType: "module" }).program.body;
+
+  ast.forEach((node) => {
+    // TODO: Impl
+  });
+
   return "";
 };
 
