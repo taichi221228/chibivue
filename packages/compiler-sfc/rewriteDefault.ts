@@ -10,11 +10,26 @@ export const rewriteDefault = (input: string, as: string): string => {
     const ${as} = {};`;
   }
 
-  const _string = new MagicString(input);
+  const string = new MagicString(input);
   const ast = parse(input, { sourceType: "module" }).program.body;
 
   ast.forEach((node) => {
-    // TODO: Impl
+    if (node.type === "ExportDefaultDeclaration") {
+      if (node.declaration.type === "ClassDeclaration") {
+        // `export default class Foo {}` -> `class Foo {}`
+        string.overwrite(node.start!, node.declaration.id?.start!, "class ");
+        // `const ${as} = Foo`
+        string.append(`const ${as} = ${node.declaration.id?.name};`);
+      } else {
+        // eg 1) `export default { setup: () => {} }` -> `const ${as} = { setup: () => {} }`
+        // eg 2) `export default Foo` -> `const ${as} = Foo`
+        string.overwrite(
+          node.start!,
+          node.declaration.start!,
+          `const ${as} = `,
+        );
+      }
+    }
   });
 
   return "";
