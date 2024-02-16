@@ -12,5 +12,9 @@
   "devDependencies": {
     "@types/node": "^20.10.5",
     "vite": "^5.1.1"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.23.9",
+    "magic-string": "^0.30.7"
   }
 }
