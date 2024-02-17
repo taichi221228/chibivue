@@ -18,8 +18,8 @@ export interface RendererOptions<
   patchProperty: (el: HostElement, key: string, value: any) => void;
   setElementText: (node: HostNode, text: string) => void;
   setText: (node: HostNode, text: string) => void;
-  insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
-  parentNode(node: HostNode): HostNode | null;
+  insert: (child: HostNode, parent: HostNode, anchor?: HostNode | null) => void;
+  parentNode: (node: HostNode) => HostNode | null;
 }
 
 export interface RendererNode extends Node {}
