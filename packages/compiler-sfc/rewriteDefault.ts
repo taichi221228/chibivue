@@ -30,6 +30,56 @@ export const rewriteDefault = (input: string, as: string): string => {
         );
       }
     }
+
+    // eg 1) `export { default } from "foo";`
+    // eg 2) `export { foo as default } from "foo";`
+    // eg 3) `export { foo as default };`
+    if (node.type === "ExportNamedDeclaration") {
+      for (const specifier of node.specifiers) {
+        if (
+          specifier.type === "ExportSpecifier" &&
+          specifier.exported.type === "Identifier" &&
+          specifier.exported.name === "default"
+        ) {
+          // has `from` clause
+          if (node.source) {
+            if (specifier.local.name === "default") {
+              const end = specifierEnd(input, specifier.local.end!, node.end!);
+
+              string.prepend(
+                `import { default as __CHIBIVUE_DEFAULT_ } from "${node.source.value}";`,
+              );
+              string.overwrite(specifier.start!, end, "");
+              string.append(`const ${as} = __CHIBIVUE_DEFAULT_;`);
+
+              continue;
+            } else {
+              // `export { foo as default } from "foo";` -> `import { foo } from "foo"; const ${as} = foo;`
+              const end = specifierEnd(
+                input,
+                specifier.exported.end!,
+                node.end!,
+              );
+
+              string.prepend(
+                `import { ${
+                  input.slice(specifier.local.start!, specifier.local.end!)
+                } } from "${node.source.value}";`,
+              );
+              string.overwrite(specifier.start!, end, "");
+              string.append(`const ${as} = ${specifier.local.name};`);
+
+              continue;
+            }
+          }
+
+          const end = specifierEnd(input, specifier.end!, node.end!);
+
+          string.overwrite(specifier.start!, end, "");
+          string.append(`const ${as} = ${specifier.local.name};`);
+        }
+      }
+    }
   });
 
   return "";
@@ -37,3 +87,23 @@ export const rewriteDefault = (input: string, as: string): string => {
 
 export const hasDefaultExport = (input: string): boolean =>
   defaultExportRE.test(input) || namedDefaultExportRE.test(input);
+
+const specifierEnd = (
+  input: string,
+  end: number,
+  nodeEnd: number,
+) => {
+  let hasCommas = false;
+  let oldEnd = end;
+
+  while (end < nodeEnd) {
+    if (/s/.test(input.charAt(end))) end++;
+    else if (input.charAt(end) === ",") {
+      hasCommas = true;
+      end++;
+      break;
+    } else if (input.charAt(end) === "}") break;
+  }
+
+  return hasCommas ? end : oldEnd;
+};
