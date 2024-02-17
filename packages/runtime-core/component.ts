@@ -76,6 +76,10 @@ export const setupComponent = (
   if (compile && !component.render) {
     instance.render = compile(component.template ?? "");
   }
+
+  if (component.render) {
+    instance.render = component.render as InternalRenderFunction;
+  }
 };
 
 let compile: CompileFunction | undefined;
