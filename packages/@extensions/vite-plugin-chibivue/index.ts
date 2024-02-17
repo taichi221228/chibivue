@@ -1,7 +1,7 @@
 import { createFilter, type Plugin } from "vite";
 
 import { compile } from "../../compiler-dom";
-import { parse } from "../../compiler-sfc";
+import { parse, rewriteDefault } from "../../compiler-sfc";
 
 export default (): Plugin => {
   const filter = createFilter(/\.vue$/);
@@ -11,7 +11,14 @@ export default (): Plugin => {
     transform: (code, id) => {
       if (!filter(id)) return;
 
+      const SFC_MAIN = "_sfc_main";
+
       const { descriptor } = parse(code, { filename: id });
+
+      const scriptCode = rewriteDefault(
+        descriptor.script?.content ?? "",
+        SFC_MAIN,
+      );
       const templateCode = compile(descriptor.template?.content ?? "", {
         isBrowser: false,
       });
@@ -23,6 +30,7 @@ export default (): Plugin => {
 
       return {
         code: `import * as _chibivue from "chibivue";
+          ${scriptCode}
           ${templateCode}
           export default { render };`,
       };
