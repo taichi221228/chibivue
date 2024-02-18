@@ -23,11 +23,6 @@ export default (): Plugin => {
         isBrowser: false,
       });
 
-      console.log(
-        "🚀 ~ file: index.ts:14 ~ transform ~ descriptor:",
-        descriptor,
-      );
-
       return {
         code: `import * as _chibivue from "chibivue";
           ${scriptCode}
