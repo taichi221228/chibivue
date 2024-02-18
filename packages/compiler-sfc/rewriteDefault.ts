@@ -1,7 +1,7 @@
 import { parse } from "@babel/parser";
 import MagicString from "magic-string";
 
-const defaultExportRE = /((?:^|\n|;)\s*)export\s+default\s+/;
+const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/;
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)(?:as)?(\s*)default/s;
 
 export const rewriteDefault = (input: string, as: string): string => {
