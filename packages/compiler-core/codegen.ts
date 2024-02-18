@@ -50,9 +50,10 @@ const genElement = (
     genProperty(property, options)
   )
     .join(", ");
-  const children = element.children.map((it) => genNode(it, options)).join(
-    ", ",
-  );
+  const children = element.children.map((element) => genNode(element, options))
+    .join(
+      ", ",
+    );
 
   return `_chibivue.h("${tag}", { ${properties} }, [${children}])`;
 };
