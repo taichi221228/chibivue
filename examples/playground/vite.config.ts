@@ -7,5 +7,6 @@ export default defineConfig({
       chibivue: `${process.cwd()}/../../packages`,
     },
   },
+  // @ts-expect-error
   plugins: [chibivue()],
 });
