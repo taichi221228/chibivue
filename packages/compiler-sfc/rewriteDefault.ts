@@ -91,12 +91,12 @@ export const hasDefaultExport = (input: string): boolean =>
 const specifierEnd = (
   input: string,
   end: number,
-  nodeEnd: number,
+  nodeEnd: number | null,
 ) => {
   let hasCommas = false;
   let oldEnd = end;
 
-  while (end < nodeEnd) {
+  while (end < nodeEnd!) {
     if (/\s/.test(input.charAt(end))) end++;
     else if (input.charAt(end) === ",") {
       hasCommas = true;
