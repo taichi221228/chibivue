@@ -13,7 +13,7 @@ export default (): Plugin => {
 
       const SFC_MAIN = "_sfc_main";
 
-      const { descriptor } = parse(code, { filename: id });
+      const { descriptor } = parse(code, { fileName: id });
 
       const scriptCode = rewriteDefault(
         descriptor.script?.content ?? "",
