@@ -82,7 +82,7 @@ export const rewriteDefault = (input: string, as: string): string => {
     }
   });
 
-  return "";
+  return string.toString();
 };
 
 export const hasDefaultExport = (input: string): boolean =>
