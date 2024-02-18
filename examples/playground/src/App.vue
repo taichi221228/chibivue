@@ -1,11 +1,13 @@
 <script>
 import { reactive } from "chibivue";
 
-export default () => {
-  const state = reactive({ message: "Hello, Chibivue!" });
-  const onClick = () => (state.message += "!");
+export default {
+  setup: () => {
+    const state = reactive({ message: "Hello, Chibivue!" });
+    const onClick = () => (state.message += "!");
 
-  return { state, onClick };
+    return { state, onClick };
+  },
 };
 </script>
 
