@@ -17,9 +17,10 @@ export const generate = (
 ): string => {
   const [node] = children;
   return `const render = (_context) => {
-    ${options.isBrowser ? "with(_context)" : ""}
+    ${options.isBrowser ? "with(_context) {" : ""}
       const { h } = _chibivue;
       return ${genNode(node, options)};
+    ${options.isBrowser ? "}" : ""}
   };
   ${options.isBrowser ? "return render;" : ""}`;
 };
