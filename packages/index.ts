@@ -1,3 +1,4 @@
+export { h } from "./runtime-core";
 export { createApp } from "./runtime-dom";
 export { reactive } from "./reactivity";
 

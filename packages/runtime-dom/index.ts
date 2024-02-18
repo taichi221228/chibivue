@@ -3,8 +3,6 @@ export * from "./patchProperties";
 export * from "./modules/attributes";
 export * from "./modules/events";
 
-export { h } from "../runtime-core";
-
 import {
   createAppAPI,
   type CreateAppFunction,
