@@ -63,7 +63,7 @@ const genElement = (
 const genInterpolation = (
   node: InterpolationNode,
   { isBrowser }: Required<CompilerOptions>,
-): string => `${isBrowser ? "_context." : ""}${node.content}`;
+): string => `${isBrowser ? "" : "_context."}${node.content}`;
 
 const genProperty = (
   property: AttributeNode | DirectiveNode,
@@ -77,7 +77,7 @@ const genProperty = (
       switch (property.name) {
         case "on":
           return `${toHandlerKey(property.parameter)}: ${
-            isBrowser ? "_context." : ""
+            isBrowser ? "" : "_context."
           }${property.expression}`;
         default:
           throw new Error(`Unexpected directive name. got "${property.name}"`);
