@@ -32,8 +32,8 @@ export default (): Plugin => {
         code: `import * as _chibivue from "chibivue";
           ${scriptCode}
           ${templateCode}
-          export default { render };`,
+          export default { ...${SFC_MAIN}, render };`,
       };
-    },
+    }
   };
 };
