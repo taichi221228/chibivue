@@ -97,7 +97,7 @@ const specifierEnd = (
   let oldEnd = end;
 
   while (end < nodeEnd) {
-    if (/s/.test(input.charAt(end))) end++;
+    if (/\s/.test(input.charAt(end))) end++;
     else if (input.charAt(end) === ",") {
       hasCommas = true;
       end++;
