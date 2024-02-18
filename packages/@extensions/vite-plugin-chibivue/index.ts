@@ -34,6 +34,6 @@ export default (): Plugin => {
           ${templateCode}
           export default { ...${SFC_MAIN}, render };`,
       };
-    }
+    },
   };
 };

@@ -54,11 +54,7 @@ const genElement = (
     ", ",
   );
 
-  return `h(
-    "${tag}",
-    { ${properties} },
-    [${children}]
-  )`;
+  return `h("${tag}", { ${properties} }, [${children}])`;
 };
 
 const genInterpolation = (
