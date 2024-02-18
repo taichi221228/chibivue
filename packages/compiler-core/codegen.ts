@@ -18,7 +18,6 @@ export const generate = (
   const [node] = children;
   return `const render = (_context) => {
     ${options.isBrowser ? "with(_context) {" : ""}
-      const { h } = _chibivue;
       return ${genNode(node, options)};
     ${options.isBrowser ? "}" : ""}
   };
@@ -55,7 +54,7 @@ const genElement = (
     ", ",
   );
 
-  return `h("${tag}", { ${properties} }, [${children}])`;
+  return `_chibivue.h("${tag}", { ${properties} }, [${children}])`;
 };
 
 const genInterpolation = (
