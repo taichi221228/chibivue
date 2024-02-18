@@ -10,7 +10,7 @@ import * as CompilerDOM from "../compiler-dom";
 
 export interface SFCDescriptor {
   id: string;
-  filename: string;
+  fileName: string;
   source: string;
   template: SFCTemplateBlock | null;
   script: SFCScriptBlock | null;
@@ -36,7 +36,7 @@ export interface SFCStyleBlock extends SFCBlock {
 }
 
 export interface SFCParseOptions {
-  filename?: string;
+  fileName?: string;
   sourceRoot?: string;
   compiler?: TemplateCompiler;
 }
@@ -49,11 +49,11 @@ export const DEFAULT_FILENAME = "anonymous.vue";
 
 export const parse = (
   source: string,
-  { filename = DEFAULT_FILENAME, compiler = CompilerDOM }: SFCParseOptions,
+  { fileName = DEFAULT_FILENAME, compiler = CompilerDOM }: SFCParseOptions,
 ): SFCParseResult => {
   const descriptor: SFCDescriptor = {
     id: undefined!,
-    filename,
+    fileName,
     source,
     template: null,
     script: null,
