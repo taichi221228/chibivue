@@ -106,11 +106,11 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   const patchChildren = (node1: VNode, node2: VNode, container: RendererElement) => {
-    const c1 = node1.children as VNode[];
-    const c2 = node2.children as VNode[];
+    const children1 = node1.children as VNode[];
+    const children2 = node2.children as VNode[];
 
-    c2.forEach((_, i) =>
-      patch(c1[i], c2[i] = normalizeVNode(c2[i]), container)
+    children2.forEach((_, i) =>
+      patch(children1[i], children2[i] = normalizeVNode(children2[i]), container)
     );
   };
 
