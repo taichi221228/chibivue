@@ -29,7 +29,13 @@ export const createVNode = (
   type: VNodeTypes,
   properties: VNodeProperties | null,
   children: VNodeNormalizedChildren,
-): VNode => ({ type, properties, children, element: undefined, component: null });
+): VNode => ({
+  type,
+  properties,
+  children,
+  element: undefined,
+  component: null,
+});
 
 export const normalizeVNode = (child: VNodeChild): VNode => {
   if (typeof child === "object") return { ...child } as VNode;

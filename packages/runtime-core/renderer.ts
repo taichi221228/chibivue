@@ -41,11 +41,17 @@ export const createRenderer = (options: RendererOptions) => {
     parentNode: hostParentNode,
   } = options;
 
-  const patch = (node1: VNode | null, node2: VNode, container: RendererElement) => {
+  const patch = (
+    node1: VNode | null,
+    node2: VNode,
+    container: RendererElement,
+  ) => {
     if (node2.type === Text) processText(node1, node2, container);
-    else if (typeof node2.type === "string") processElement(node1, node2, container);
-    else if (typeof node2.type === "object") processComponent(node1, node2, container);
-    else {}
+    else if (typeof node2.type === "string") {
+      processElement(node1, node2, container);
+    } else if (typeof node2.type === "object") {
+      processComponent(node1, node2, container);
+    } else {}
   };
 
   const processText = (
@@ -54,10 +60,15 @@ export const createRenderer = (options: RendererOptions) => {
     container: RendererElement,
   ) => {
     if (node1 == null) {
-      hostInsert(node2.element = hostCreateText(node2.children as string), container);
+      hostInsert(
+        node2.element = hostCreateText(node2.children as string),
+        container,
+      );
     } else {
       const element = (node2.element = node1.element!);
-      if (node2.children !== node1.children) hostSetText(element, node2.children as string);
+      if (node2.children !== node1.children) {
+        hostSetText(element, node2.children as string);
+      }
     }
   };
 
@@ -105,12 +116,20 @@ export const createRenderer = (options: RendererOptions) => {
     }
   };
 
-  const patchChildren = (node1: VNode, node2: VNode, container: RendererElement) => {
+  const patchChildren = (
+    node1: VNode,
+    node2: VNode,
+    container: RendererElement,
+  ) => {
     const children1 = node1.children as VNode[];
     const children2 = node2.children as VNode[];
 
     children2.forEach((_, i) =>
-      patch(children1[i], children2[i] = normalizeVNode(children2[i]), container)
+      patch(
+        children1[i],
+        children2[i] = normalizeVNode(children2[i]),
+        container,
+      )
     );
   };
 
