@@ -41,33 +41,33 @@ export const createRenderer = (options: RendererOptions) => {
     parentNode: hostParentNode,
   } = options;
 
-  const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
-    if (n2.type === Text) processText(n1, n2, container);
-    else if (typeof n2.type === "string") processElement(n1, n2, container);
-    else if (typeof n2.type === "object") processComponent(n1, n2, container);
+  const patch = (node1: VNode | null, node2: VNode, container: RendererElement) => {
+    if (node2.type === Text) processText(node1, node2, container);
+    else if (typeof node2.type === "string") processElement(node1, node2, container);
+    else if (typeof node2.type === "object") processComponent(node1, node2, container);
     else {}
   };
 
   const processText = (
-    n1: VNode | null,
-    n2: VNode,
+    node1: VNode | null,
+    node2: VNode,
     container: RendererElement,
   ) => {
-    if (n1 == null) {
-      hostInsert(n2.el = hostCreateText(n2.children as string), container);
+    if (node1 == null) {
+      hostInsert(node2.el = hostCreateText(node2.children as string), container);
     } else {
-      const el = (n2.el = n1.el!);
-      if (n2.children !== n1.children) hostSetText(el, n2.children as string);
+      const el = (node2.el = node1.el!);
+      if (node2.children !== node1.children) hostSetText(el, node2.children as string);
     }
   };
 
   const processElement = (
-    n1: VNode | null,
-    n2: VNode,
+    node1: VNode | null,
+    node2: VNode,
     container: RendererElement,
   ) => {
-    if (n1 === null) mountElement(n2, container);
-    else patchElement(n1, n2);
+    if (node1 === null) mountElement(node2, container);
+    else patchElement(node1, node2);
   };
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
@@ -90,24 +90,24 @@ export const createRenderer = (options: RendererOptions) => {
       patch(null, children[i] = normalizeVNode(children[i]), container)
     );
 
-  const patchElement = (n1: VNode, n2: VNode) => {
-    const el = (n2.el = n1.el!) as RendererElement;
-    const properties = n2.properties;
+  const patchElement = (node1: VNode, node2: VNode) => {
+    const el = (node2.el = node1.el!) as RendererElement;
+    const properties = node2.properties;
 
-    patchChildren(n1, n2, el);
+    patchChildren(node1, node2, el);
 
     if (properties) {
       Object.entries(properties).forEach(([key]) => {
-        if (properties[key] !== (n1.properties?.[key] ?? {})) {
+        if (properties[key] !== (node1.properties?.[key] ?? {})) {
           hostPatchProperty(el, key, properties[key]);
         }
       });
     }
   };
 
-  const patchChildren = (n1: VNode, n2: VNode, container: RendererElement) => {
-    const c1 = n1.children as VNode[];
-    const c2 = n2.children as VNode[];
+  const patchChildren = (node1: VNode, node2: VNode, container: RendererElement) => {
+    const c1 = node1.children as VNode[];
+    const c2 = node2.children as VNode[];
 
     c2.forEach((_, i) =>
       patch(c1[i], c2[i] = normalizeVNode(c2[i]), container)
@@ -115,12 +115,12 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   const processComponent = (
-    n1: VNode | null,
-    n2: VNode,
+    node1: VNode | null,
+    node2: VNode,
     container: RendererElement,
   ) => {
-    if (n1 === null) mountComponent(n2, container);
-    else updateComponent(n1, n2);
+    if (node1 === null) mountComponent(node2, container);
+    else updateComponent(node1, node2);
   };
 
   const mountComponent = (
@@ -135,9 +135,9 @@ export const createRenderer = (options: RendererOptions) => {
     setupRenderEffect(instance, initialVnode, container);
   };
 
-  const updateComponent = (n1: VNode, n2: VNode) => {
-    const instance = (n2.component = n1.component)!;
-    instance.next = n2;
+  const updateComponent = (node1: VNode, node2: VNode) => {
+    const instance = (node2.component = node1.component)!;
+    instance.next = node2;
     instance.update();
   };
 
