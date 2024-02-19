@@ -15,7 +15,7 @@ export interface RendererOptions<
 > {
   createElement: (type: string) => HostElement;
   createText: (text: string) => HostNode;
-  patchProperty: (el: HostElement, key: string, value: any) => void;
+  patchProperty: (element: HostElement, key: string, value: any) => void;
   setElementText: (node: HostNode, text: string) => void;
   setText: (node: HostNode, text: string) => void;
   insert: (child: HostNode, parent: HostNode, anchor?: HostNode | null) => void;
@@ -54,10 +54,10 @@ export const createRenderer = (options: RendererOptions) => {
     container: RendererElement,
   ) => {
     if (node1 == null) {
-      hostInsert(node2.el = hostCreateText(node2.children as string), container);
+      hostInsert(node2.element = hostCreateText(node2.children as string), container);
     } else {
-      const el = (node2.el = node1.el!);
-      if (node2.children !== node1.children) hostSetText(el, node2.children as string);
+      const element = (node2.element = node1.element!);
+      if (node2.children !== node1.children) hostSetText(element, node2.children as string);
     }
   };
 
@@ -71,18 +71,18 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
-    let el: RendererElement;
-    el = vnode.el = hostCreateElement(vnode.type as string);
+    let element: RendererElement;
+    element = vnode.element = hostCreateElement(vnode.type as string);
 
-    mountChildren(vnode.children as VNode[], el);
+    mountChildren(vnode.children as VNode[], element);
 
     if (vnode.properties) {
       Object.entries(vnode.properties).forEach(([key, value]) =>
-        hostPatchProperty(el, key, value)
+        hostPatchProperty(element, key, value)
       );
     }
 
-    hostInsert(el, container);
+    hostInsert(element, container);
   };
 
   const mountChildren = (children: VNode[], container: RendererElement) =>
@@ -91,15 +91,15 @@ export const createRenderer = (options: RendererOptions) => {
     );
 
   const patchElement = (node1: VNode, node2: VNode) => {
-    const el = (node2.el = node1.el!) as RendererElement;
+    const element = (node2.element = node1.element!) as RendererElement;
     const properties = node2.properties;
 
-    patchChildren(node1, node2, el);
+    patchChildren(node1, node2, element);
 
     if (properties) {
       Object.entries(properties).forEach(([key]) => {
         if (properties[key] !== (node1.properties?.[key] ?? {})) {
-          hostPatchProperty(el, key, properties[key]);
+          hostPatchProperty(element, key, properties[key]);
         }
       });
     }
@@ -152,13 +152,13 @@ export const createRenderer = (options: RendererOptions) => {
           instance.render(instance.setupState),
         ));
         patch(null, subTree, container);
-        initialVnode.el = subTree.el;
+        initialVnode.element = subTree.element;
         instance.isMounted = true;
       } else {
         let { next, vnode } = instance;
 
         if (next) {
-          next.el = vnode.el;
+          next.element = vnode.element;
           next.component = vnode.component;
           instance.vnode = next;
           instance.next = null;
@@ -174,9 +174,9 @@ export const createRenderer = (options: RendererOptions) => {
         patch(
           prevTree,
           nextTree,
-          hostParentNode(prevTree.el!) as RendererElement,
+          hostParentNode(prevTree.element!) as RendererElement,
         );
-        next.el = nextTree.el;
+        next.element = nextTree.element;
       }
     };
 

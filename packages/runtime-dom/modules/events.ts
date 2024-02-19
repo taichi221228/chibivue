@@ -5,27 +5,27 @@ interface Invoker extends EventListener {
 type EventValue = Function;
 
 export const addEventListener = (
-  el: Element,
+  element: Element,
   event: string,
   handler: EventListener,
 ) => {
-  el.addEventListener(event, handler);
+  element.addEventListener(event, handler);
 };
 
 export const removeEventListener = (
-  el: Element,
+  element: Element,
   event: string,
   handler: EventListener,
 ) => {
-  el.removeEventListener(event, handler);
+  element.removeEventListener(event, handler);
 };
 
 export const patchEvent = (
-  el: Element & { _vei?: Record<string, Invoker | undefined> },
+  element: Element & { _vei?: Record<string, Invoker | undefined> },
   rawName: string,
   value: EventValue | null,
 ) => {
-  const invokers = el._vei || (el._vei = {});
+  const invokers = element._vei || (element._vei = {});
   const existingInvoker = invokers[rawName];
 
   if (value && existingInvoker) {
@@ -37,9 +37,9 @@ export const patchEvent = (
 
   if (value) {
     const invoker = (invokers[rawName] = createInvoker(value));
-    addEventListener(el, name, invoker);
+    addEventListener(element, name, invoker);
   } else if (existingInvoker) {
-    removeEventListener(el, name, existingInvoker);
+    removeEventListener(element, name, existingInvoker);
     invokers[rawName] = undefined;
   }
 };

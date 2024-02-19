@@ -1,11 +1,11 @@
 export const patchAttributes = (
-  el: Element,
+  element: Element,
   key: string,
   value: any | null,
 ) => {
   if (value === null) {
-    el.removeAttribute(key);
+    element.removeAttribute(key);
   } else {
-    el.setAttribute(key, value);
+    element.setAttribute(key, value);
   }
 };

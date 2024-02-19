@@ -10,13 +10,13 @@ const onRE = /^on[^a-z]/;
 export const isOn = (key: string) => onRE.test(key);
 
 export const patchProperty: DOMRendererOptions["patchProperty"] = (
-  el,
+  element,
   key,
   value,
 ) => {
   if (isOn(key)) {
-    patchEvent(el, key, value);
+    patchEvent(element, key, value);
   } else {
-    patchAttributes(el, key, value);
+    patchAttributes(element, key, value);
   }
 };
