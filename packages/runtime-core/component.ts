@@ -74,7 +74,7 @@ export const setupComponent = (
   }
 
   if (compile && !component.render) {
-    instance.render = compile(component.template ?? "");
+    if (component.template) instance.render = compile(component.template ?? "");
   }
 
   if (component.render) {
