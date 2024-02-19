@@ -86,8 +86,8 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   const mountChildren = (children: VNode[], container: RendererElement) =>
-    children.forEach((_, i) =>
-      patch(null, children[i] = normalizeVNode(children[i]), container)
+    children.forEach((node, i) =>
+      patch(null, children[i] = normalizeVNode(node), container)
     );
 
   const patchElement = (node1: VNode, node2: VNode) => {
