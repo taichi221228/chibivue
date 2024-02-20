@@ -97,8 +97,8 @@ export const createRenderer = (options: RendererOptions) => {
   };
 
   const mountChildren = (children: VNode[], container: RendererElement) =>
-    children.forEach((node, i) =>
-      patch(null, children[i] = normalizeVNode(node), container)
+    children.forEach((node, index) =>
+      patch(null, children[index] = normalizeVNode(node), container)
     );
 
   const patchElement = (node1: VNode, node2: VNode) => {
@@ -124,10 +124,10 @@ export const createRenderer = (options: RendererOptions) => {
     const children1 = node1.children as VNode[];
     const children2 = node2.children as VNode[];
 
-    children2.forEach((_, i) =>
+    children2.forEach((_, index) =>
       patch(
-        children1[i],
-        children2[i] = normalizeVNode(children2[i]),
+        children1[index],
+        children2[index] = normalizeVNode(children2[index]),
         container,
       )
     );
