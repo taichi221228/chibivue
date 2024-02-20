@@ -4,6 +4,7 @@ import { type RendererNode } from "./renderer";
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
   properties: VNodeProperties | null;
+  key: string | number | symbol | null;
   children: VNodeNormalizedChildren;
   element: HostNode | undefined;
   component: ComponentInternalInstance | null;
@@ -32,6 +33,7 @@ export const createVNode = (
 ): VNode => ({
   type,
   properties,
+  key: properties?.key ?? null,
   children,
   element: undefined,
   component: null,
