@@ -1,4 +1,4 @@
-# Chibivue
+# chibivue
 
 ![chibivue](https://github.com/taichi221228/chibivue/assets/58300794/f1d79404-ea6f-4e4e-a2d1-7c28500f61e1)
 
