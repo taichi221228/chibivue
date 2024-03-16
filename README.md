@@ -1,5 +1,7 @@
 # Chibivue
 
+![chibivue](https://github.com/taichi221228/chibivue/assets/58300794/f1d79404-ea6f-4e4e-a2d1-7c28500f61e1)
+
 ## Description
 
 This project is a learning project based on [chibivue](https://github.com/Ubugeeei/chibivue). It is a TypeScript-based application that utilizes a custom renderer to handle virtual nodes (VNodes) and components. The renderer provides functionality for mounting and updating both elements and components, as well as handling their properties and children.
