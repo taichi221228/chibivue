@@ -3,7 +3,7 @@ import { reactive } from "chibivue";
 
 export default {
   setup: () => {
-    const state = reactive({ message: "Hello, Chibivue!" });
+    const state = reactive({ message: "Hello, chibivue!" });
     const onClick = () => (state.message += "!");
 
     return { state, onClick };
@@ -20,7 +20,7 @@ export default {
       width="260"
       height="225"
     />
-    <p style="font-size: 20px"><b>Chibivue</b> is the minimal Vue.js</p>
+    <p style="font-size: 20px"><b>chibivue</b> is the minimal Vue.js</p>
     <button @click="onClick">Click me!</button>
   </div>
 </template>
